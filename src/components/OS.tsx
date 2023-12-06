@@ -43,14 +43,34 @@ const OS = () => {
         }
     }, []);
 
+    useEffect(() => {
+
+        const handleResize = () => {
+            setStartTextWidth(document.getElementById("start-text")?.offsetWidth ?? 0);
+            setStartIconWidth(document.getElementById("start-icon")?.offsetWidth ?? 0);
+        }
+
+        window.addEventListener('resize', handleResize);
+
+
+        // cleanup this component
+
+        return () => {
+
+            window.removeEventListener('resize', handleResize);
+
+        };
+
+    }, []);
+
     return (
         loaded ?
             <div id="OS">
                 <div id="taskbar" style={{display: showTaskbar ? "flex": "none"}}>
                     <div id="start-button">
                         <div style={{width: startTextWidth + startIconWidth + 5}}>
-                            <img ref={iconMeasuredRef} src={require("../assets/start.png")}/>
-                            <p ref={textMeasuredRef}>Start</p>
+                            <img id="start-icon" ref={iconMeasuredRef} src={require("../assets/start.png")}/>
+                            <p id="start-text" ref={textMeasuredRef}>Start</p>
                         </div>
                     </div>
                 </div>
