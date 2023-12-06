@@ -7,7 +7,7 @@ interface WindowProps {
 
 const Window: React.FC<WindowProps> = (props: WindowProps) => {
     return (
-        <div className="window">
+        <div className="window" draggable={true}>
             <div className="window-head">
                 <p>{props.title}</p>
             </div>

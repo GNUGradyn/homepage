@@ -45,3 +45,24 @@
         transform: rotate(360deg);
     }
 }
+
+#taskbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #bfc1c0;
+    height: 3vh;
+    border-top: solid white 3px;
+}
+
+#start-button {
+    background-color: #c3c3c3;
+    border-right: #fdfdfd 1px solid;
+    border-bottom: #fdfdfd 1px solid;
+    margin: 3px;
+}
+
+#start-button p {
+    margin: 0;
+}

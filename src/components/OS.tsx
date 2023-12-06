@@ -5,6 +5,7 @@ import Window from './Window'
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
     const [startupWindowVisible, setStartupWindowVisible] = useState(false);
+    const [showTaskbar, setShowTaskbar] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
@@ -20,13 +21,23 @@ const OS = () => {
         }
     }, [startupWindowVisible]);
 
+    useEffect(() => {
+        setTimeout(() => {
+            setShowTaskbar(true)
+        }, 1000)
+    }, [loaded])
+
     return (
         loaded ?
             <div id="OS">
-
+                <div id="taskbar" style={{display: showTaskbar ? "flex": "none"}}>
+                    <div id="start-button">
+                        <p>Start</p>
+                    </div>
+                </div>
             </div>
             :
-            <div id="loading">
+            <div id="loading" onClick={()=>{setLoaded(true)}}>
                 <div style={{display: startupWindowVisible ? "block" : "none"}}>
                     <Window title="Starting Up" >
                         <div id="startup-window-content">
