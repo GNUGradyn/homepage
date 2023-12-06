@@ -29,6 +29,22 @@ const OS = () => {
         }, 1000)
     }, [loaded])
 
+
+    // close the start menu if it's clicked out of
+    const startMenuRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const handleOutsideClick = (e: any) => {
+            if (startMenuRef.current && !startMenuRef.current.contains(e.target)) {
+                setStartMenuVisible(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleOutsideClick);
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    });
+
     // Dumb workaround to firefox bug https://bugzilla.mozilla.org/show_bug.cgi?id=1868645
     const [startIconWidth, setStartIconWidth] = useState(0);
     const [startTextWidth, setStartTextWidth] = useState(0);
@@ -53,10 +69,6 @@ const OS = () => {
         }
 
         window.addEventListener('resize', handleResize);
-
-
-        // cleanup this component
-
         return () => {
 
             window.removeEventListener('resize', handleResize);
@@ -75,7 +87,7 @@ const OS = () => {
                             <p id="start-text" ref={textMeasuredRef}>Start</p>
                         </div>
                     </div>
-                    {startMenuVisible && <StartMenu/>}
+                    {startMenuVisible && <StartMenu ref={startMenuRef}/>}
                 </div>}
             </div>
             :
