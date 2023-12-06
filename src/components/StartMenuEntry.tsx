@@ -1,3 +1,5 @@
+import "./StartMenuEntry.css"
+
 interface StartMenuEntryProps {
     name: string
     icon: string
@@ -5,9 +7,9 @@ interface StartMenuEntryProps {
 
 const StartMenu = (props: StartMenuEntryProps) => {
     return (
-        <div>
-            <p>{props.name}</p>
+        <div className="start-menu-entry">
             <img src={props.icon}/>
+            <p>{props.name}</p>
         </div>
     )
 }

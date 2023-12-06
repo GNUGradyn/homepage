@@ -1,6 +1,7 @@
-import {useCallback, useEffect, useRef, useState} from "react"
+import React, {useCallback, useEffect, useRef, useState} from "react"
 import './OS.css'
 import Window from './Window'
+import StartMenu from "./StartMenu";
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
@@ -68,12 +69,13 @@ const OS = () => {
         loaded ?
             <div id="OS">
                 {showTaskbar && <div id="taskbar">
-                    <div id="start-button">
+                    <div id="start-button" onClick={()=>{setStartMenuVisible((prevState: boolean) => !prevState)}}>
                         <div style={{width: startTextWidth + startIconWidth + 5}}>
                             <img id="start-icon" ref={iconMeasuredRef} src={require("../assets/start.png")}/>
                             <p id="start-text" ref={textMeasuredRef}>Start</p>
                         </div>
                     </div>
+                    {startMenuVisible && <StartMenu/>}
                 </div>}
             </div>
             :

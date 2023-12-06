@@ -1,0 +1,4 @@
+.start-menu-entry {
+    display: flex;
+    flex-direction: row;
+}
