@@ -6,6 +6,7 @@ const OS = () => {
     const [loaded, setLoaded] = useState(false);
     const [startupWindowVisible, setStartupWindowVisible] = useState(false);
     const [showTaskbar, setShowTaskbar] = useState(false);
+    const [startMenuVisible, setStartMenuVisible] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
@@ -66,25 +67,27 @@ const OS = () => {
     return (
         loaded ?
             <div id="OS">
-                <div id="taskbar" style={{display: showTaskbar ? "flex": "none"}}>
+                {showTaskbar && <div id="taskbar">
                     <div id="start-button">
                         <div style={{width: startTextWidth + startIconWidth + 5}}>
                             <img id="start-icon" ref={iconMeasuredRef} src={require("../assets/start.png")}/>
                             <p id="start-text" ref={textMeasuredRef}>Start</p>
                         </div>
                     </div>
-                </div>
+                </div>}
             </div>
             :
-            <div id="loading" onClick={()=>{setLoaded(true)}}>
-                <div style={{display: startupWindowVisible ? "block" : "none"}}>
-                    <Window title="Starting Up" >
+            <div id="loading" onClick={() => {
+                setLoaded(true)
+            }}>
+                {startupWindowVisible && <div>
+                    <Window title="Starting Up">
                         <div id="startup-window-content">
                             <h1>Starting Gradyn OS</h1>
                             <img id="startup-img" src={require("../assets/gradyn.png")}/>
                         </div>
                     </Window>
-                </div>
+                </div>}
             </div>
     )
 }

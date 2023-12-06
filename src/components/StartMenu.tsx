@@ -1,11 +1,12 @@
+import StartMenuEntry from "./StartMenuEntry";
+
 interface StartMenuProps {
-    visible: boolean
 }
 
 const StartMenu = (props: StartMenuProps) => {
     return (
-        <div style={{display: props.visible ? "block" : "none"}}>
-
+        <div>
+            <StartMenuEntry name={"Resume"} icon={require("../assets/document_icon.png")}/>
         </div>
     )
 }
