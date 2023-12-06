@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react"
+import {useCallback, useEffect, useRef, useState} from "react"
 import './OS.css'
 import Window from './Window'
 
@@ -28,17 +28,29 @@ const OS = () => {
     }, [loaded])
 
     // Dumb workaround to firefox bug https://bugzilla.mozilla.org/show_bug.cgi?id=1868645
-    const startIconRef = useRef<HTMLImageElement>(null);
-    const startTextRef = useRef<HTMLParagraphElement>(null);
+    const [startIconWidth, setStartIconWidth] = useState(0);
+    const [startTextWidth, setStartTextWidth] = useState(0);
+
+    const iconMeasuredRef: React.RefCallback<HTMLElement> = useCallback((node) => {
+        if (node !== null) {
+            setStartIconWidth(node.getBoundingClientRect().width);
+        }
+    }, []);
+
+    const textMeasuredRef: React.RefCallback<HTMLElement> = useCallback((node) => {
+        if (node !== null) {
+            setStartTextWidth(node.getBoundingClientRect().width);
+        }
+    }, []);
 
     return (
         loaded ?
             <div id="OS">
                 <div id="taskbar" style={{display: showTaskbar ? "flex": "none"}}>
                     <div id="start-button">
-                        <div style={{width: (startTextRef.current?.offsetWidth ?? 0) + (startIconRef.current?.offsetWidth ?? 0) + 5}}>
-                            <img ref={startIconRef} src={require("../assets/start.png")}/>
-                            <p ref={startTextRef}>Start</p>
+                        <div style={{width: startTextWidth + startIconWidth + 5}}>
+                            <img ref={iconMeasuredRef} src={require("../assets/start.png")}/>
+                            <p ref={textMeasuredRef}>Start</p>
                         </div>
                     </div>
                 </div>

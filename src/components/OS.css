@@ -63,6 +63,14 @@
     border-bottom: black 2px solid;
     border-right: black 2px solid;
     margin: 3px;
+    user-select: none;
+}
+
+#start-button:active {
+    border-top: #fdfdfd 2px inset;
+    border-left: #fdfdfd 2px inset;
+    border-bottom: black 2px inset;
+    border-right: black 2px inset;
 }
 
 #start-button div {
