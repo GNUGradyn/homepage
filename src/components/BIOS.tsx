@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './BIOS.css'
-import LoadingBar from './LoadingBar';
+import LoadingBar from '../LoadingBar';
 
 interface BIOSProps {
     setBooted: (booted: boolean) => void;
@@ -23,7 +23,7 @@ const BIOS: React.FC<BIOSProps> = (props: BIOSProps) => {
   }, [loadBar]);
 
   return (
-    <div id="BIOS">
+    <div id="BIOS" onClick={() => {props.setBooted(true)}}>
         <p id="bios-options">
             F5&ensp;&emsp;= REBOOT<br></br>
             F11 = FULL SCREEN

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import BIOS from './BIOS';
-import OS from './OS';
+import BIOS from './components/BIOS';
+import OS from './components/OS';
 
 function App() {
   const [booted, setBooted] = useState(false);

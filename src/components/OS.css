@@ -1,0 +1,43 @@
+#OS {
+    height: 100%;
+    width: 100%;
+    background: url(/public/wallpaper.png);
+    background-size: cover;
+}
+
+#loading {
+    height: 100%;
+    width: 100%;
+    background-color: #008484;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loading-box {
+    height: 60vh;
+    aspect-ratio: 1/1.5;
+    border-style: groove;
+    border-color: #071f2c;
+    border-style: solid;
+}
+
+#loading-box h1 {
+    text-align: center;
+    font-size: 3rem;
+    margin: 0;
+    padding: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#loading-box-header {
+    width: 100%;
+    height: 5%;
+    background-color: #101a88;
+    border-color: #1693c6;
+    border-width: 0;
+    border-top-width: 3px;
+    border-left-width: 3px;
+    border-style: ridge;
+    box-sizing: border-box; /*to keep border inside the box*/
+}
