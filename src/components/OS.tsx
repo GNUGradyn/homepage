@@ -21,8 +21,9 @@ const OS = () => {
             <div id="loading">
                 <div style={{display: startupWindowVisible ? "block" : "none"}}>
                     <Window title="Starting Up" >
-                        <div style={{height: "50vh", width: "20vw"}}>
-                            <img src={require("../")}
+                        <div id="startup-window-content">
+                            <h1>Starting Gradyn OS</h1>
+                            <img id="startup-img" src={require("../assets/gradyn.png")}/>
                         </div>
                     </Window>
                 </div>
