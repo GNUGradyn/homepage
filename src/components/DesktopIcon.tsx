@@ -1,4 +1,5 @@
 import "./DesktopIcon.css"
+import Draggable from "./Draggable";
 
 interface DesktopIconProps {
     name: string
@@ -6,10 +7,12 @@ interface DesktopIconProps {
 }
 
 const DesktopIcon = (props: DesktopIconProps) => {
-    return <div className="desktop-icon">
-        <img src={props.icon}/>
-        <p>{props.name}</p>
-    </div>
+    return <Draggable>
+        <div className="desktop-icon">
+            <img src={props.icon}/>
+            <p>{props.name}</p>
+        </div>
+    </Draggable>
 }
 
 export default DesktopIcon;
