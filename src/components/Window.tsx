@@ -7,7 +7,11 @@ interface WindowProps {
 
 const Window: React.FC<WindowProps> = (props: WindowProps) => {
     return (
-        <div className="window" title="Starting Up">
+        <div className="window">
+            <div className="window-head">
+                <p>{props.title}</p>
+            </div>
+            {props.children}
         </div>
     );
 };

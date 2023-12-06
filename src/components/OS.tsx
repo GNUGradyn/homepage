@@ -1,9 +1,16 @@
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import './OS.css'
 import Window from './Window'
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
+    const [startupWindowVisible, setStartupWindowVisible] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setStartupWindowVisible(true);
+        }, 1000)
+    }, []);
 
     return (
         loaded ?
@@ -12,9 +19,13 @@ const OS = () => {
             </div>
             :
             <div id="loading">
-                <Window title="Starting Up">
-
-                </Window>
+                <div style={{display: startupWindowVisible ? "block" : "none"}}>
+                    <Window title="Starting Up" >
+                        <div style={{height: "50vh", width: "20vw"}}>
+                            <img s
+                        </div>
+                    </Window>
+                </div>
             </div>
     )
 }
