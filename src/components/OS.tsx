@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from "react"
 import './OS.css'
 import Window from './Window'
 import StartMenu from "./StartMenu";
+import DesktopIcon from "./DesktopIcon";
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
@@ -80,6 +81,9 @@ const OS = () => {
     return (
         loaded ?
             <div id="OS">
+                <div id="desktop">
+                    <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")}/>
+                </div>
                 {showTaskbar && <div id="taskbar">
                     <div id="start-button" onClick={()=>{setStartMenuVisible((prevState: boolean) => !prevState)}}>
                         <div style={{width: startTextWidth + startIconWidth + 5}}>

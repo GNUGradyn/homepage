@@ -1,0 +1,13 @@
+.desktop-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    flex-direction: column;
+    color: white;
+    padding: 10px;
+}
+
+.desktop-icon p {
+    margin: 1px;
+}

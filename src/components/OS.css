@@ -93,3 +93,11 @@
     height: 80%;
     padding-right: 5px;
 }
+
+#desktop {
+    position: absolute;
+    top: 0;
+    bottom: 3vh;
+    left: 0;
+    right: 0;
+}
