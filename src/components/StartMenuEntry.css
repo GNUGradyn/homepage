@@ -1,4 +1,15 @@
 .start-menu-entry {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.start-menu-entry img {
+    height: 35px;
+}
+
+.start-menu-entry p {
+    padding: 5px;
 }
