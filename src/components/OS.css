@@ -54,6 +54,7 @@
     background-color: #bfc1c0;
     height: 3vh;
     border-top: solid white 3px;
+    display: flex;
 }
 
 #start-button {
