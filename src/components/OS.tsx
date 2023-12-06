@@ -12,6 +12,14 @@ const OS = () => {
         }, 1000)
     }, []);
 
+    useEffect(() => {
+        if (startupWindowVisible) {
+            setTimeout(() => {
+                setLoaded(true);
+            }, 3000)
+        }
+    }, [startupWindowVisible]);
+
     return (
         loaded ?
             <div id="OS">
