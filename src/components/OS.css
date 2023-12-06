@@ -1,7 +1,7 @@
 #OS {
     height: 100%;
     width: 100%;
-    background: url(/assets/wallpaper.png);
+    background: url(/src/assets/wallpaper.png);
     background-size: cover;
 }
 

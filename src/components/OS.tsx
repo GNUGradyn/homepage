@@ -22,7 +22,7 @@ const OS = () => {
                 <div style={{display: startupWindowVisible ? "block" : "none"}}>
                     <Window title="Starting Up" >
                         <div style={{height: "50vh", width: "20vw"}}>
-                            <img s
+                            <img src={require("../")}
                         </div>
                     </Window>
                 </div>
