@@ -36,7 +36,7 @@ const OS = () => {
             <div id="OS">
                 <div id="taskbar" style={{display: showTaskbar ? "flex": "none"}}>
                     <div id="start-button">
-                        <div style={{width: (startTextRef.current?.offsetWidth ?? 0) + (startTextRef.current?.offsetWidth ?? 0)}}>
+                        <div style={{width: (startTextRef.current?.offsetWidth ?? 0) + (startIconRef.current?.offsetWidth ?? 0) + 5}}>
                             <img ref={startIconRef} src={require("../assets/start.png")}/>
                             <p ref={startTextRef}>Start</p>
                         </div>
