@@ -7,19 +7,15 @@ const OS = () => {
 
     return (
         loaded ?
-            (
-                <div id="OS">
+            <div id="OS">
 
-                </div>
-            )
+            </div>
             :
-            (
-                <div id="loading">
-                    <Window title="Starting Up">
-                    
-                    </Window>
-                </div>
-            )
+            <div id="loading">
+                <Window title="Starting Up">
+
+                </Window>
+            </div>
     )
 }
 

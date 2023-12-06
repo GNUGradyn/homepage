@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './BIOS.css'
-import LoadingBar from '../LoadingBar';
+import LoadingBar from './LoadingBar';
 
 interface BIOSProps {
     setBooted: (booted: boolean) => void;
