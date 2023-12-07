@@ -129,12 +129,14 @@ const OS = () => {
                 setLoaded(true)
             }}>
                 {startupWindowVisible && <div>
-                    <Window title="Starting Up" height={"50vh"} width={"20vw"} style={{position: "relative"}}>
-                        <div id="startup-window-content">
-                            <h1>Starting Gradyn OS</h1>
-                            <img id="startup-img" src={require("../assets/gradyn.png")}/>
-                        </div>
-                    </Window>
+                    <DndContext>
+                        <Window title="Starting Up" height={"50vh"} width={"20vw"} style={{position: "relative", height: "50vh", width: "20vw"}}>
+                            <div id="startup-window-content">
+                                <h1>Starting Gradyn OS</h1>
+                                <img id="startup-img" src={require("../assets/gradyn.png")}/>
+                            </div>
+                        </Window>
+                    </DndContext>
                 </div>}
             </div>
     )

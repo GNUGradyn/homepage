@@ -5,6 +5,7 @@ import {DragEndEvent, useDndMonitor, useDraggable} from "@dnd-kit/core";
 import {CSS} from "@dnd-kit/utilities";
 import {Simulate} from "react-dom/test-utils";
 import resize = Simulate.resize;
+import {produce} from "immer";
 
 interface WindowProps {
     title: string
@@ -113,6 +114,13 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         const handleGlobalMouseUp = (event: any) => {
             setResizeMode("none");
             if (ref.current != null) rect.current = ref.current.getBoundingClientRect();
+            const result = produce(coordinatesMap, draft => {
+                draft[props.title + "-win"] = {
+                    x: rect.current?.x ?? 0,
+                    y: rect.current?.y ?? 0
+                }
+            })
+            setCoordinatesMap(result);
         }
 
         window.addEventListener("mouseup", handleGlobalMouseUp);
