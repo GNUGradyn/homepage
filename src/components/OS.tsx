@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import './OS.css'
 import Window from './Window'
 import StartMenu from "./StartMenu";
@@ -17,6 +17,10 @@ const OS = () => {
 
     const openWindow = (window: Windows) => {
         setWindows(oldValue => [...oldValue, window]);
+    }
+
+    const closeWindow = (window: Windows) => {
+        setWindows(oldValue => oldValue.filter(x => x != window));
     }
 
     const [draggablePositions, setDraggablePositions] = useState<{[key: string]: ClientRect}>({});
@@ -72,7 +76,7 @@ const OS = () => {
                     <DraggablesContext.Provider value={{map: draggablePositions, setMap: setDraggablePositions}}>
                         <div id="desktop">
                             <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")} onClick={()=>{openWindow(Windows.Resume)}}/>
-                            {windows.indexOf(Windows.Resume) > -1 && <Window icon={require("../assets/document_icon.png")} title={"Resume"} width={"40vw"} height={"60vh"}>
+                            {windows.indexOf(Windows.Resume) > -1 && <Window icon={require("../assets/document_icon.png")} title={"Resume"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Resume)}}>
                                 <object type="application/pdf" data={require("../assets/resume.pdf")} width={"100%"} height={"100%"}/>
                             </Window>}
                         </div>
@@ -85,7 +89,7 @@ const OS = () => {
                             <p id="start-text" >Start</p>
                         </div>
                     </div>
-                    {startMenuVisible && <StartMenu ref={startMenuRef}/>}
+                    {startMenuVisible && <StartMenu openWindow={(window: Windows) => {openWindow(window); setStartMenuVisible(false)}} ref={startMenuRef}/>}
                 </div>}
             </div>
             :
@@ -94,7 +98,7 @@ const OS = () => {
             }}>
                 {startupWindowVisible && <div>
                     <DndContext>
-                        <Window title="Starting Up" height={"50vh"} width={"20vw"} style={{position: "relative", height: "50vh", width: "20vw"}}>
+                        <Window title="Starting Up" height={"50vh"} width={"20vw"} style={{position: "relative", height: "50vh", width: "20vw"}} requestClose={() => {}}>
                             <div id="startup-window-content">
                                 <h1>Starting Gradyn OS</h1>
                                 <img id="startup-img" src={require("../assets/gradyn.png")}/>

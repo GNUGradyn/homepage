@@ -5,6 +5,9 @@ import {DragEndEvent, useDndMonitor, useDraggable} from "@dnd-kit/core";
 import {CSS} from "@dnd-kit/utilities";
 import {Simulate} from "react-dom/test-utils";
 import {produce} from "immer";
+import NavbarButton from "./NavbarButton";
+// @ts-ignore
+import xSolidIcon from "../assets/x-solid.svg";
 
 interface WindowProps {
     title: string
@@ -13,6 +16,7 @@ interface WindowProps {
     height: string
     style?: CSSProperties
     icon?: string
+    requestClose: () => void
 }
 
 const Window: React.FC<WindowProps> = (props: WindowProps) => {
@@ -208,8 +212,13 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         }}>
             {resizeMode != "none" && <div className="overlay"></div>}
             <div className="window-head" {...listeners} {...attributes}>
-                {props.icon && <img src={props.icon}/>}
-                <p>{props.title}</p>
+                <div className="window-head-id">
+                    {props.icon && <img src={props.icon}/>}
+                    <p>{props.title}</p>
+                </div>
+                <div>
+                    <NavbarButton icon={xSolidIcon} onClick={props.requestClose}/>
+                </div>
             </div>
             <div className="window-body">
                 {props.children}

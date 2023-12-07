@@ -1,0 +1,29 @@
+.navbar-button {
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+    width: 17px;
+    height: 17px;
+}
+
+.navbar-button div {
+    border-right: 2px solid #7e7e90;
+    border-bottom: 2px solid #7e7e90;
+    background-color: #c2c2d0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.navbar-button:active {
+    border-style: inset;
+}
+
+.navbar-button div img {
+    width: 90%;
+    height: 90%;
+}
