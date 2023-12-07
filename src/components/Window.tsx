@@ -50,34 +50,40 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         }
     })
 
+    const resizeMode = useRef<string>("none");
+
     const handleMouseMove = (event: any) => {
-        let resizeMode: string = "none";
         if (rect.current && ref.current) {
             if (event.clientX > rect.current.right - 6) { // right border
                 ref.current.style.cursor = "w-resize";
-                resizeMode = "right";
+                resizeMode.current = "right";
             } else if (event.clientX < rect.current.left + 6) { // left border
                 ref.current.style.cursor = "w-resize";
-                resizeMode = "left";
+                resizeMode.current = "left";
             } else if (event.clientY > rect.current.bottom - 6) { // bottom border
                 ref.current.style.cursor = "n-resize";
-                resizeMode = "bottom";
+                resizeMode.current = "bottom";
             } else if (event.clientY < rect.current.top + 6) { // top border
                 ref.current.style.cursor = "n-resize";
-                resizeMode = "top";
+                resizeMode.current = "top";
             } else {
                 ref.current.style.cursor = "auto";
+                resizeMode.current = "none";
             }
+        }
+    }
 
-            if (resizeMode !== "none") {
-                switch (resizeMode) {
+    useEffect(() => {
+        window.addEventListener("mousemove", (event: any) => {
+            if (ref.current && resizeMode.current !== "none" && resizing) {
+                switch (resizeMode.current) {
                     case "left":
                         ref.current.style.left = `${event.clientX}px`;
                         break;
                 }
             }
-        }
-    }
+        })
+    }, []);
 
     const handleMouseDown = (event: any) => {
         resizing.current = true;
