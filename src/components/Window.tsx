@@ -52,8 +52,22 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
 
     const resizeMode = useRef<string>("none");
 
-    const handleClick = (event: any) => {
-        event.stopPropagation();
+    const handleMouseDown = (event: any) => {
+        resizing.current = true;
+    }
+
+    const handleGlobalMouseMove = (event: any) => {
+        if (ref.current && rect.current && resizeMode.current !== "none" && resizing) {
+            switch (resizeMode.current) {
+                case "left":
+                    ref.current.style.left = `${event.clientX}px`;
+                    break;
+            }
+            rect.current = ref.current.getBoundingClientRect()
+        }
+    };
+
+    const handleMouseMove = (event: any) => {
         if (rect.current && ref.current) {
             if (event.clientX > rect.current.right - 6) { // right border
                 ref.current.style.cursor = "w-resize";
@@ -74,28 +88,18 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         }
     }
 
-    const handleMouseMove = (event: any) => {
-        if (ref.current && rect.current && resizeMode.current !== "none" && resizing) {
-            switch (resizeMode.current) {
-                case "left":
-                    ref.current.style.left = `${event.clientX}px`;
-                    break;
-            }
-            rect.current = ref.current.getBoundingClientRect()
-        }
-    };
-
     useEffect(() => {
-        window.addEventListener("mousemove", handleMouseMove)
+        window.addEventListener("mousemove", handleGlobalMouseMove)
 
         return () => {
-            window.removeEventListener("mousemove", handleMouseMove)
+            window.removeEventListener("mousemove", handleGlobalMouseMove)
         }
     }, []);
 
+
     return (
         <div style={{...props.style, ...style, right: rect.current?.left ?? 0 + props.width, height: props.height}}
-             onClick={handleClick} onLoad={handleLoad} className="window" ref={(el: any) => {
+             onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onLoad={handleLoad} className="window" ref={(el: any) => {
             ref.current = el;
             setNodeRef(el)
         }}>
