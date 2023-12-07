@@ -23,7 +23,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         transform: CSS.Translate.toString(transform),
     };
 
-    const ref = useRef<HTMLDivElement>(null);
+    const ref = useRef<HTMLDivElement>();
 
     const rect = useRef<DOMRect>();
 
@@ -47,9 +47,31 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         }
     })
 
+    const handleMouseMove = (event: any) => {
+        if (rect.current && ref.current) {
+            if (event.clientX > rect.current.right - 6) { // right border
+                ref.current.style.cursor = "w-resize"
+                return;
+            }
+            if (event.clientX < rect.current.left + 6) { // left border
+                ref.current.style.cursor = "w-resize"
+                return;
+            }
+            if (event.clientY > rect.current.bottom - 6) { // bottom border
+                ref.current.style.cursor = "n-resize"
+                return;
+            }
+            if (event.clientY < rect.current.top + 6) { // left border
+                ref.current.style.cursor = "n-resize"
+                return;
+            }
+            ref.current.style.cursor = "auto"
+        }
+    }
+
     return (
-        <div style={{...props.style, ...style, width: props.width, height: props.height}} onLoad={handleLoad} className="window" ref={ref} {...listeners} {...attributes} >
-            <div className="window-head" ref={setNodeRef}>
+        <div style={{...props.style, ...style, width: props.width, height: props.height}} onMouseMove={handleMouseMove} onLoad={handleLoad} className="window" ref={(el: any) => {ref.current = el; setNodeRef(el)}}  >
+            <div className="window-head"{...listeners} {...attributes}>
                 <p>{props.title}</p>
             </div>
             <div className="window-body">
