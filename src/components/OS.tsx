@@ -38,7 +38,7 @@ const OS = () => {
     useEffect(() => {
         if (startupWindowVisible) {
             setTimeout(() => {
-                //setLoaded(true);
+                setLoaded(true);
             }, 3000)
         }
     }, [startupWindowVisible]);
