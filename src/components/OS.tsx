@@ -7,6 +7,7 @@ import {DndContext, DragEndEvent, useDroppable} from "@dnd-kit/core";
 import {produce} from "immer"
 import {Simulate} from "react-dom/test-utils";
 import ended = Simulate.ended;
+import {DraggablesContext} from "../contexts/DraggablesContext";
 
 export type CoordinatesMap = {
     [key: string]: {
@@ -100,9 +101,11 @@ const OS = () => {
                     })
                     setDraggablePositions(result);
                 }}>
-                    <div id="desktop">
-                        <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")}/>
-                    </div>
+                    <DraggablesContext.Provider value={{map: draggablePositions, setMap: setDraggablePositions}}>
+                        <div id="desktop">
+                            <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")}/>
+                        </div>
+                    </DraggablesContext.Provider>
                 </DndContext>
                 {showTaskbar && <div id="taskbar">
                     <div id="start-button" onClick={()=>{setStartMenuVisible((prevState: boolean) => !prevState)}}>

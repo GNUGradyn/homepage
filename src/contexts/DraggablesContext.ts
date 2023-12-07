@@ -8,5 +8,5 @@ interface DraggablesContextProps {
 
 export const DraggablesContext = createContext<DraggablesContextProps>({
     map: {},
-    setMap: (alerts: React.SetStateAction<CoordinatesMap>) => {}
+    setMap: (value: React.SetStateAction<CoordinatesMap>) => {}
 });
