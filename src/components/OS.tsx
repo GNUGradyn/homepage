@@ -3,10 +3,11 @@ import './OS.css'
 import Window from './Window'
 import StartMenu from "./StartMenu";
 import DesktopIcon from "./DesktopIcon";
-import {DndContext, DragEndEvent} from "@dnd-kit/core";
+import {DndContext, DragEndEvent, MouseSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {produce} from "immer"
 import {DraggablesContext} from "../contexts/DraggablesContext";
 import {Windows} from "../models";
+import {useSensorSetup} from "@dnd-kit/core/dist/hooks/utilities";
 
 export type CoordinatesMap = {
     [key: string]: {
@@ -96,10 +97,13 @@ const OS = () => {
 
     }, [showTaskbar]);
 
+    const mouseSensor = useSensor(MouseSensor, {activationConstraint: {distance: 15}})
+    const sensors = useSensors(mouseSensor);
+
     return (
         loaded ?
             <div id="OS">
-                <DndContext onDragEnd={(event: DragEndEvent) => {
+                <DndContext sensors={sensors} onDragEnd={(event: DragEndEvent) => {
                     const result = produce(draggablePositions, draft => {
                         draft[event.active.id] = {
                             x: (draggablePositions[event.active.id]?.x ?? 0) + event.delta.x,
