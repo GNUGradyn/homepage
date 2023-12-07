@@ -206,13 +206,13 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     }
 
     return (
-        <div style={{...props.style, ...style, right: `calc(100% - ${props.width})px`, bottom: `calc(100% - ${props.height})px`, top: 0, left: 0}}
+        <div style={{...props.style, ...style, right: `calc(100% - ${props.width})`, bottom: `calc(100% - ${props.height})`, top: 0, left: 0}}
              onMouseMove={handleMouseMove} onMouseDown={handleMouseDown} onLoad={handleLoad} className="window" ref={(el: any) => {
             ref.current = el;
             setNodeRef(el)
         }}>
             {resizeMode != "none" && <div className="overlay"></div>}
-            <div className="window-head"{...listeners} {...attributes}>
+            <div className="window-head" {...listeners} {...attributes}>
                 <p>{props.title}</p>
             </div>
             <div className="window-body">

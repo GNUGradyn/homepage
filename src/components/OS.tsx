@@ -58,38 +58,6 @@ const OS = () => {
         };
     });
 
-    // Dumb workaround to firefox bug https://bugzilla.mozilla.org/show_bug.cgi?id=1868645
-    const [startIconWidth, setStartIconWidth] = useState(0);
-    const [startTextWidth, setStartTextWidth] = useState(0);
-
-    const iconMeasuredRef: React.RefCallback<HTMLElement> = useCallback((node) => {
-        if (node !== null) {
-            setStartIconWidth(node.getBoundingClientRect().width);
-        }
-    }, []);
-
-    const textMeasuredRef: React.RefCallback<HTMLElement> = useCallback((node) => {
-        if (node !== null) {
-            setStartTextWidth(node.getBoundingClientRect().width);
-        }
-    }, []);
-
-    useEffect(() => {
-
-        const handleResize = () => {
-            setStartTextWidth(document.getElementById("start-text")?.offsetWidth ?? 0);
-            setStartIconWidth(document.getElementById("start-icon")?.offsetWidth ?? 0);
-        }
-
-        window.addEventListener('resize', handleResize);
-        return () => {
-
-            window.removeEventListener('resize', handleResize);
-
-        };
-
-    }, [showTaskbar]);
-
     const mouseSensor = useSensor(MouseSensor, {activationConstraint: {distance: 15}})
     const sensors = useSensors(mouseSensor);
 
@@ -116,9 +84,9 @@ const OS = () => {
                 </DndContext>
                 {showTaskbar && <div id="taskbar">
                     <div id="start-button" onClick={()=>{setStartMenuVisible((prevState: boolean) => !prevState)}}>
-                        <div style={{width: startTextWidth + startIconWidth + 5}}>
-                            <img id="start-icon" ref={iconMeasuredRef} src={require("../assets/start.png")}/>
-                            <p id="start-text" ref={textMeasuredRef}>Start</p>
+                        <div style={{width: 70}}>
+                            <img id="start-icon" src={require("../assets/start.png")}/>
+                            <p id="start-text" >Start</p>
                         </div>
                     </div>
                     {startMenuVisible && <StartMenu ref={startMenuRef}/>}
