@@ -42,17 +42,16 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     const rect = useRef<DOMRect>();
 
     useEffect(() => {
-        if (coordinatesMap[props.title + "-win"] && ref.current) {
+        if (ref.current) {
+            ref.current.style.position = "absolute";
             if (maximized) {
                 ref.current.style.right = "0px";
                 ref.current.style.bottom = "0px";
                 ref.current.style.top = "0px";
                 ref.current.style.left = "0px";
             } else {
-                if (ref.current != undefined) {
-                    ref.current.style.position = "absolute";
+                if (ref.current && coordinatesMap[props.title + "-win"]) {
                     const rect = coordinatesMap[props.title + "-win"];
-                    console.log(coordinatesMap[props.title + "-win"])
                     ref.current.style.right = `calc(100% - (${rect.left}px + ${rect.width}px))`; // For some reason rect.right and rect.bottom are wrong
                     ref.current.style.bottom = `calc(100% - (${rect.top}px + ${rect.height}px))`; // For some reason rect.right and rect.bottom are wrong
                     ref.current.style.top = rect.top + "px";
