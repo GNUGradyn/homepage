@@ -98,8 +98,8 @@ const OS = () => {
                 <DndContext onDragEnd={(event: DragEndEvent) => {
                     const result = produce(draggablePositions, draft => {
                         draft[event.active.id] = {
-                            x: (draggablePositions[event.active.id].x ?? 0) + event.delta.x,
-                            y: (draggablePositions[event.active.id].y ?? 0) + event.delta.y
+                            x: (draggablePositions[event.active.id]?.x ?? 0) + event.delta.x,
+                            y: (draggablePositions[event.active.id]?.y ?? 0) + event.delta.y
                         }
                     })
                     setDraggablePositions(result);
