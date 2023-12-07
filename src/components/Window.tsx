@@ -124,7 +124,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     }
 
     return (
-        <div style={{...props.style, ...style, right: rect.current?.left ?? 0 + props.width, height: props.height}}
+        <div style={{...props.style, ...style, right: rect.current?.left ?? 0 + props.width, height: rect.current?.top + props.height}}
              onMouseMove={handleMouseMove} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onLoad={handleLoad} className="window" ref={(el: any) => {
             ref.current = el;
             setNodeRef(el)
