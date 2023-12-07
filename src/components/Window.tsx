@@ -3,6 +3,8 @@ import {CSSProperties, useEffect, useRef} from "react";
 import useDraggables from "../hooks/useDraggables";
 import {DragEndEvent, useDndMonitor, useDraggable} from "@dnd-kit/core";
 import {CSS} from "@dnd-kit/utilities";
+import {Simulate} from "react-dom/test-utils";
+import resize = Simulate.resize;
 
 interface WindowProps {
     title: string
@@ -24,6 +26,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     };
 
     const ref = useRef<HTMLDivElement>();
+    const resizing = useRef<boolean>(false);
 
     const rect = useRef<DOMRect>();
 
@@ -48,29 +51,45 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     })
 
     const handleMouseMove = (event: any) => {
+        let resizeMode: string = "none";
         if (rect.current && ref.current) {
             if (event.clientX > rect.current.right - 6) { // right border
-                ref.current.style.cursor = "w-resize"
-                return;
+                ref.current.style.cursor = "w-resize";
+                resizeMode = "right";
+            } else if (event.clientX < rect.current.left + 6) { // left border
+                ref.current.style.cursor = "w-resize";
+                resizeMode = "left";
+            } else if (event.clientY > rect.current.bottom - 6) { // bottom border
+                ref.current.style.cursor = "n-resize";
+                resizeMode = "bottom";
+            } else if (event.clientY < rect.current.top + 6) { // top border
+                ref.current.style.cursor = "n-resize";
+                resizeMode = "top";
+            } else {
+                ref.current.style.cursor = "auto";
             }
-            if (event.clientX < rect.current.left + 6) { // left border
-                ref.current.style.cursor = "w-resize"
-                return;
+
+            if (resizeMode !== "none") {
+                switch (resizeMode) {
+                    case "left":
+                        ref.current.style.left = `${event.clientX}px`;
+                        break;
+                    // Add cases for "right", "top", and "bottom" as needed
+                }
             }
-            if (event.clientY > rect.current.bottom - 6) { // bottom border
-                ref.current.style.cursor = "n-resize"
-                return;
-            }
-            if (event.clientY < rect.current.top + 6) { // left border
-                ref.current.style.cursor = "n-resize"
-                return;
-            }
-            ref.current.style.cursor = "auto"
         }
     }
 
+    const handleMouseDown = (event: any) => {
+        resizing.current = true;
+    }
+
     return (
-        <div style={{...props.style, ...style, width: props.width, height: props.height}} onMouseMove={handleMouseMove} onLoad={handleLoad} className="window" ref={(el: any) => {ref.current = el; setNodeRef(el)}}  >
+        <div style={{...props.style, ...style, width: props.width, height: props.height}} onMouseDown={handleMouseDown}
+             onMouseMove={handleMouseMove} onLoad={handleLoad} className="window" ref={(el: any) => {
+            ref.current = el;
+            setNodeRef(el)
+        }}>
             <div className="window-head"{...listeners} {...attributes}>
                 <p>{props.title}</p>
             </div>
