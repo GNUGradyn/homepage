@@ -76,6 +76,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
 
     const handleMouseUp = (event: any) => {
         resizeMode.current = "none";
+        resizing.current = false;
     }
 
     const handleGlobalMouseMove = (event: any) => {
@@ -85,13 +86,13 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
                     ref.current.style.left = `${event.clientX}px`;
                     break;
                 case "right":
-                    ref.current.style.width = `${event.clientX - rect.current.left}px`;
+                    ref.current.style.right = `calc(100% - ${event.clientX}px)`;
                     break;
                 case "top":
                     ref.current.style.top = `${event.clientY}px`;
                     break;
                 case "bottom":
-                    ref.current.style.height = `${event.clientY - rect.current.top}px`;
+                    ref.current.style.bottom = `calc(100% - ${event.clientY}px)`;
                     break;
             }
             rect.current = ref.current.getBoundingClientRect()
