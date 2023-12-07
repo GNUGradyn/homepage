@@ -74,7 +74,6 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
                     case "left":
                         ref.current.style.left = `${event.clientX}px`;
                         break;
-                    // Add cases for "right", "top", and "bottom" as needed
                 }
             }
         }
