@@ -90,7 +90,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     }
 
     return (
-        <div style={{...props.style, ...style, width: props.width, height: props.height}} onMouseDown={handleMouseDown}
+        <div style={{...props.style, ...style, right: rect.current?.left ?? 0 + props.width, height: props.height}} onMouseDown={handleMouseDown}
              onMouseMove={handleMouseMove} onLoad={handleLoad} className="window" ref={(el: any) => {
             ref.current = el;
             setNodeRef(el)
