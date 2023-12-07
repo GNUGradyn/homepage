@@ -72,7 +72,7 @@ const OS = () => {
                     <DraggablesContext.Provider value={{map: draggablePositions, setMap: setDraggablePositions}}>
                         <div id="desktop">
                             <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")} onClick={()=>{openWindow(Windows.Resume)}}/>
-                            {windows.indexOf(Windows.Resume) > -1 && <Window title={"Resume"} width={"40vw"} height={"60vh"}>
+                            {windows.indexOf(Windows.Resume) > -1 && <Window icon={require("../assets/document_icon.png")} title={"Resume"} width={"40vw"} height={"60vh"}>
                                 <object type="application/pdf" data={require("../assets/resume.pdf")} width={"100%"} height={"100%"}/>
                             </Window>}
                         </div>

@@ -12,6 +12,7 @@ interface WindowProps {
     width: string
     height: string
     style?: CSSProperties
+    icon?: string
 }
 
 const Window: React.FC<WindowProps> = (props: WindowProps) => {
@@ -207,6 +208,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         }}>
             {resizeMode != "none" && <div className="overlay"></div>}
             <div className="window-head" {...listeners} {...attributes}>
+                {props.icon && <img src={props.icon}/>}
                 <p>{props.title}</p>
             </div>
             <div className="window-body">
