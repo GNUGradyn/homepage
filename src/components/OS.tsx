@@ -7,14 +7,7 @@ import {DndContext, DragEndEvent, MouseSensor, useSensor, useSensors} from "@dnd
 import {produce} from "immer"
 import {DraggablesContext} from "../contexts/DraggablesContext";
 import {Windows} from "../models";
-import {useSensorSetup} from "@dnd-kit/core/dist/hooks/utilities";
-
-export type CoordinatesMap = {
-    [key: string]: {
-      x: number;
-      y: number;
-    };
-  };
+import {CoordinatesMap} from "../models/CoordinatesMap";
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);

@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import {CoordinatesMap} from "../components/OS";
+import {CoordinatesMap} from "../models/CoordinatesMap";
 
 interface DraggablesContextProps {
     map: CoordinatesMap

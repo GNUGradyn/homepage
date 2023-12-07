@@ -1,7 +1,7 @@
 import "./Window.css"
 import {CSSProperties, useEffect, useRef} from "react";
 import useDraggables from "../hooks/useDraggables";
-import {useDraggable} from "@dnd-kit/core";
+import {DragEndEvent, useDndMonitor, useDraggable} from "@dnd-kit/core";
 import {CSS} from "@dnd-kit/utilities";
 
 interface WindowProps {
@@ -25,6 +25,8 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
 
     const ref = useRef<HTMLDivElement>(null);
 
+    const rect = useRef<DOMRect>();
+
     useEffect(() => {
         if (coordinatesMap[props.title + "-win"] != undefined) {
             if (ref.current != undefined) {
@@ -35,9 +37,18 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         }
     }, [coordinatesMap]);
 
+    const handleLoad = () => {
+        if (ref.current != null) rect.current = ref.current.getBoundingClientRect();
+    }
+
+    useDndMonitor({
+        onDragEnd(event: DragEndEvent) {
+            if (ref.current != null) rect.current = ref.current.getBoundingClientRect();
+        }
+    })
 
     return (
-        <div style={{...props.style, ...style, width: props.width, height: props.height}} className="window" ref={ref} {...listeners} {...attributes}>
+        <div style={{...props.style, ...style, width: props.width, height: props.height}} onLoad={handleLoad} className="window" ref={ref} {...listeners} {...attributes} >
             <div className="window-head" ref={setNodeRef}>
                 <p>{props.title}</p>
             </div>
