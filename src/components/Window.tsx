@@ -52,7 +52,8 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
 
     const resizeMode = useRef<string>("none");
 
-    const handleMouseMove = (event: any) => {
+    const handleClick = (event: any) => {
+        event.stopPropagation();
         if (rect.current && ref.current) {
             if (event.clientX > rect.current.right - 6) { // right border
                 ref.current.style.cursor = "w-resize";
@@ -75,26 +76,24 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
 
     useEffect(() => {
         window.addEventListener("mousemove", (event: any) => {
-            if (ref.current && resizeMode.current !== "none" && resizing) {
+            if (ref.current && rect.current && resizeMode.current !== "none" && resizing) {
                 switch (resizeMode.current) {
                     case "left":
                         ref.current.style.left = `${event.clientX}px`;
                         break;
                 }
+                rect.current = ref.current.getBoundingClientRect()
             }
         })
     }, []);
 
-    const handleMouseDown = (event: any) => {
-        resizing.current = true;
-    }
-
     return (
-        <div style={{...props.style, ...style, right: rect.current?.left ?? 0 + props.width, height: props.height}} onMouseDown={handleMouseDown}
-             onMouseMove={handleMouseMove} onLoad={handleLoad} className="window" ref={(el: any) => {
+        <div style={{...props.style, ...style, right: rect.current?.left ?? 0 + props.width, height: props.height}}
+             onClick={handleClick} onLoad={handleLoad} className="window" ref={(el: any) => {
             ref.current = el;
             setNodeRef(el)
         }}>
+            {resizing && <div className="overlay"></div>}
             <div className="window-head"{...listeners} {...attributes}>
                 <p>{props.title}</p>
             </div>
