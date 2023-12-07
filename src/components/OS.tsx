@@ -136,7 +136,7 @@ const OS = () => {
                 setLoaded(true)
             }}>
                 {startupWindowVisible && <div>
-                    <Window title="Starting Up" height={"50vh"} width={"20vw"}>
+                    <Window title="Starting Up" height={"50vh"} width={"20vw"} style={{position: "relative"}}>
                         <div id="startup-window-content">
                             <h1>Starting Gradyn OS</h1>
                             <img id="startup-img" src={require("../assets/gradyn.png")}/>
