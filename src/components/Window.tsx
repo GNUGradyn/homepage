@@ -33,11 +33,11 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         if (coordinatesMap[props.title + "-win"] != undefined) {
             if (ref.current != undefined) {
                 ref.current.style.position = "absolute";
-                ref.current.style.top = coordinatesMap[props.title + "-win"].top + "px";
-                ref.current.style.left = coordinatesMap[props.title + "-win"].left + "px";
+                console.log(coordinatesMap[props.title + "-win"])
                 ref.current.style.right = coordinatesMap[props.title + "-win"].right + "px";
                 ref.current.style.bottom = coordinatesMap[props.title + "-win"].bottom + "px";
-
+                ref.current.style.top = coordinatesMap[props.title + "-win"].top + "px";
+                ref.current.style.left = coordinatesMap[props.title + "-win"].left + "px";
             }
         }
     }, [coordinatesMap]);
@@ -119,7 +119,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
             const result = produce(coordinatesMap, draft => {
                 draft[props.title + "-win"] = rect.current ?? new DOMRect(0,0,0,0);
             })
-            setCoordinatesMap(result);
+            //setCoordinatesMap(result);
         }
 
         window.addEventListener("mouseup", handleGlobalMouseUp);
@@ -143,7 +143,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
                         ref.current.style.top = `${event.clientY}px`;
                         break;
                     case "bottom":
-                        ref.current.style.height = `${event.clientY - rect.current.top - 10}px`;
+                        ref.current.style.bottom = `calc(100% - ${event.clientY}px)`;
                         break;
                     case "top-left":
                         ref.current.style.top = `${event.clientY}px`;
