@@ -1,6 +1,7 @@
 .window {
     border: #c4c4c4 5px ridge;
     background-color: white;
+    z-index: 2;
 }
 
 .window-head {

@@ -7,6 +7,7 @@ import {useEffect, useRef} from "react";
 interface DesktopIconProps {
     name: string
     icon: string
+    onClick: () => void
 }
 
 const DesktopIcon = (props: DesktopIconProps) => {
@@ -32,7 +33,7 @@ const DesktopIcon = (props: DesktopIconProps) => {
         }
     }, [coordinatesMap]);
 
-    return <div className="desktop-icon" ref={(el: HTMLDivElement) => {setNodeRef(el); ref.current = el}} style={style} {...listeners} {...attributes}>
+    return <div onClick={props.onClick} className="desktop-icon" ref={(el: HTMLDivElement) => {setNodeRef(el); ref.current = el}} style={style} {...listeners} {...attributes}>
         <img src={props.icon}/>
         <p>{props.name}</p>
     </div>

@@ -3,11 +3,10 @@ import './OS.css'
 import Window from './Window'
 import StartMenu from "./StartMenu";
 import DesktopIcon from "./DesktopIcon";
-import {DndContext, DragEndEvent, useDroppable} from "@dnd-kit/core";
+import {DndContext, DragEndEvent} from "@dnd-kit/core";
 import {produce} from "immer"
-import {Simulate} from "react-dom/test-utils";
-import ended = Simulate.ended;
 import {DraggablesContext} from "../contexts/DraggablesContext";
+import {Windows} from "../models";
 
 export type CoordinatesMap = {
     [key: string]: {
@@ -21,6 +20,11 @@ const OS = () => {
     const [startupWindowVisible, setStartupWindowVisible] = useState(false);
     const [showTaskbar, setShowTaskbar] = useState(false);
     const [startMenuVisible, setStartMenuVisible] = useState(false);
+    const [windows, setWindows] = useState<Windows[]>([]);
+
+    const openWindow = (window: Windows) => {
+        setWindows(oldValue => [...oldValue, window]);
+    }
 
     const [draggablePositions, setDraggablePositions] = useState<CoordinatesMap>({});
 
@@ -106,7 +110,10 @@ const OS = () => {
                 }}>
                     <DraggablesContext.Provider value={{map: draggablePositions, setMap: setDraggablePositions}}>
                         <div id="desktop">
-                            <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")}/>
+                            <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")} onClick={()=>{openWindow(Windows.Resume)}}/>
+                            {windows.indexOf(Windows.Resume) > -1 && <Window title={"Resume"} width={"40vw"} height={"60vh"}>
+                                <object type="application/pdf" data={require("../assets/resume.pdf")} width={"100%"} height={"100%"}/>
+                            </Window>}
                         </div>
                     </DraggablesContext.Provider>
                 </DndContext>
@@ -125,7 +132,7 @@ const OS = () => {
                 setLoaded(true)
             }}>
                 {startupWindowVisible && <div>
-                    <Window title="Starting Up">
+                    <Window title="Starting Up" height={"50vh"} width={"20vw"}>
                         <div id="startup-window-content">
                             <h1>Starting Gradyn OS</h1>
                             <img id="startup-img" src={require("../assets/gradyn.png")}/>
