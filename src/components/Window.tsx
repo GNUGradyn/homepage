@@ -133,6 +133,26 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
                 case "bottom":
                     ref.current.style.height = `${event.clientY - rect.current.top - 10}px`;
                     break;
+                case "top-left":
+                    ref.current.style.top = `${event.clientY}px`;
+                    ref.current.style.height = `${rect.current.bottom - event.clientY - 10}px`;
+                    ref.current.style.left = `${event.clientX}px`;
+                    ref.current.style.width = `${rect.current.right - event.clientX - 10}px`;
+                    break;
+                case "top-right":
+                    ref.current.style.top = `${event.clientY}px`;
+                    ref.current.style.height = `${rect.current.bottom - event.clientY - 10}px`;
+                    ref.current.style.width = `${event.clientX - rect.current.left - 10}px`;
+                    break;
+                case "bottom-left":
+                    ref.current.style.height = `${event.clientY - rect.current.top - 10}px`;
+                    ref.current.style.left = `${event.clientX}px`;
+                    ref.current.style.width = `${rect.current.right - event.clientX - 10}px`;
+                    break;
+                case "bottom-right":
+                    ref.current.style.height = `${event.clientY - rect.current.top - 10}px`;
+                    ref.current.style.width = `${event.clientX - rect.current.left - 10}px`;
+                    break;
             }
         }
     };
