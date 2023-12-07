@@ -1,5 +1,5 @@
 import "./Window.css"
-import {CSSProperties, useEffect, useRef} from "react";
+import {CSSProperties, useEffect, useRef, useState} from "react";
 import useDraggables from "../hooks/useDraggables";
 import {DragEndEvent, useDndMonitor, useDraggable} from "@dnd-kit/core";
 import {CSS} from "@dnd-kit/utilities";
@@ -49,7 +49,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         }
     })
 
-    const resizeMode = useRef<string>("none");
+    const [resizeMode, setResizeMode] = useState<string>("none");
 
     const handleMouseDown = (event: any) => {
         event.stopPropagation();
@@ -57,49 +57,49 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
             // top right
             if (event.clientX > rect.current.right - 6 && event.clientY < rect.current.top + 6) {
                 ref.current.style.cursor = "ne-resize";
-                resizeMode.current = "top-right";
+                setResizeMode("top-right");
             }
 
             // bottom right
             else if (event.clientX > rect.current.right - 6 && event.clientY > rect.current.bottom - 6) {
                 ref.current.style.cursor = "se-resize";
-                resizeMode.current = "bottom-right";
+                setResizeMode("bottom-right");
             }
 
             // bottom left
             else if (event.clientX < rect.current.left + 6 && event.clientY > rect.current.bottom - 6) {
                 ref.current.style.cursor = "sw-resize";
-                resizeMode.current = "bottom-left";
+                setResizeMode("bottom-left");
             }
 
             // top left
             else if (event.clientX < rect.current.left + 6 && event.clientY < rect.current.top + 6) {
                 ref.current.style.cursor = "nw-resize";
-                resizeMode.current = "top-left";
+                setResizeMode("top-left");
             }
 
             // right
             else if (event.clientX > rect.current.right - 6 ) {
                 ref.current.style.cursor = "e-resize";
-                resizeMode.current = "right";
+                setResizeMode("right");
             }
 
             // bottom
             else if (event.clientY > rect.current.bottom - 6) {
                 ref.current.style.cursor = "s-resize";
-                resizeMode.current = "bottom";
+                setResizeMode("bottom");
             }
 
             // left
             else if (event.clientX < rect.current.left + 6) {
                 ref.current.style.cursor = "w-resize";
-                resizeMode.current = "left";
+                setResizeMode("left");
             }
 
             // top
             else if (event.clientY < rect.current.top + 6) {
                 ref.current.style.cursor = "n-resize";
-                resizeMode.current = "top";
+                setResizeMode("top");
             }
 
             // else
@@ -111,7 +111,8 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
 
     useEffect(() => {
         const handleGlobalMouseUp = (event: any) => {
-            resizeMode.current = "none";
+            setResizeMode("none");
+            if (ref.current != null) rect.current = ref.current.getBoundingClientRect();
         }
 
         window.addEventListener("mouseup", handleGlobalMouseUp);
@@ -123,8 +124,8 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     useEffect(() => {
 
         const handleGlobalMouseMove = (event: any) => {
-            if (ref.current && rect.current && resizeMode.current !== "none") {
-                switch (resizeMode.current) {
+            if (ref.current && rect.current && resizeMode !== "none") {
+                switch (resizeMode) {
                     case "left":
                         ref.current.style.left = `${event.clientX}px`;
                         ref.current.style.width = `${rect.current.right - event.clientX - 10}px`;
@@ -171,7 +172,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     }, [ref, resizeMode]);
 
     const handleMouseMove = (event: any) => {
-        if (rect.current && ref.current && resizeMode.current === "none") {
+        if (rect.current && ref.current && resizeMode === "none") {
             // top right
             if (event.clientX > rect.current.right - 6 && event.clientY < rect.current.top + 6)         ref.current.style.cursor = "ne-resize";
             // bottom right
@@ -202,7 +203,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
             ref.current = el;
             setNodeRef(el)
         }}>
-            {resizeMode.current != "none" && <div className="overlay"></div>}
+            {resizeMode != "none" && <div className="overlay"></div>}
             <div className="window-head"{...listeners} {...attributes}>
                 <p>{props.title}</p>
             </div>
