@@ -33,11 +33,12 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         if (coordinatesMap[props.title + "-win"] != undefined) {
             if (ref.current != undefined) {
                 ref.current.style.position = "absolute";
+                const rect = coordinatesMap[props.title + "-win"];
                 console.log(coordinatesMap[props.title + "-win"])
-                ref.current.style.right = coordinatesMap[props.title + "-win"].right + "px";
-                ref.current.style.bottom = coordinatesMap[props.title + "-win"].bottom + "px";
-                ref.current.style.top = coordinatesMap[props.title + "-win"].top + "px";
-                ref.current.style.left = coordinatesMap[props.title + "-win"].left + "px";
+                ref.current.style.right = `calc(100% - (${rect.left}px + ${rect.width}px))`; // For some reason rect.right and rect.bottom are wrong
+                ref.current.style.bottom = `calc(100% - (${rect.top}px + ${rect.height}px))`; // For some reason rect.right and rect.bottom are wrong
+                ref.current.style.top = rect.top + "px";
+                ref.current.style.left = rect.left + "px";
             }
         }
     }, [coordinatesMap]);
