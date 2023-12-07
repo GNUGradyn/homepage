@@ -1,12 +1,12 @@
-import { createContext } from 'react';
-import {CoordinatesMap} from "../models/CoordinatesMap";
+import React, { createContext } from 'react';
+import {ClientRect} from "@dnd-kit/core";
 
 interface DraggablesContextProps {
-    map: CoordinatesMap
-    setMap: (value: CoordinatesMap) => void
+    map: {[key: string]: ClientRect}
+    setMap: (value: {[key: string]: ClientRect}) => void
 }
 
 export const DraggablesContext = createContext<DraggablesContextProps>({
     map: {},
-    setMap: (value: React.SetStateAction<CoordinatesMap>) => {}
+    setMap: (value: React.SetStateAction<{[key: string]: ClientRect}>) => {}
 });

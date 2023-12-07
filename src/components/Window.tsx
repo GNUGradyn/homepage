@@ -4,7 +4,6 @@ import useDraggables from "../hooks/useDraggables";
 import {DragEndEvent, useDndMonitor, useDraggable} from "@dnd-kit/core";
 import {CSS} from "@dnd-kit/utilities";
 import {Simulate} from "react-dom/test-utils";
-import resize = Simulate.resize;
 import {produce} from "immer";
 
 interface WindowProps {
@@ -34,8 +33,11 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         if (coordinatesMap[props.title + "-win"] != undefined) {
             if (ref.current != undefined) {
                 ref.current.style.position = "absolute";
-                ref.current.style.top = coordinatesMap[props.title + "-win"].y + "px";
-                ref.current.style.left = coordinatesMap[props.title + "-win"].x + "px";
+                ref.current.style.top = coordinatesMap[props.title + "-win"].top + "px";
+                ref.current.style.left = coordinatesMap[props.title + "-win"].left + "px";
+                ref.current.style.right = coordinatesMap[props.title + "-win"].right + "px";
+                ref.current.style.bottom = coordinatesMap[props.title + "-win"].bottom + "px";
+
             }
         }
     }, [coordinatesMap]);
@@ -115,10 +117,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
             setResizeMode("none");
             if (ref.current != null) rect.current = ref.current.getBoundingClientRect();
             const result = produce(coordinatesMap, draft => {
-                draft[props.title + "-win"] = {
-                    x: rect.current?.x ?? 0,
-                    y: rect.current?.y ?? 0
-                }
+                draft[props.title + "-win"] = rect.current ?? new DOMRect(0,0,0,0);
             })
             setCoordinatesMap(result);
         }
@@ -136,37 +135,31 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
                 switch (resizeMode) {
                     case "left":
                         ref.current.style.left = `${event.clientX}px`;
-                        ref.current.style.width = `${rect.current.right - event.clientX - 10}px`;
                         break;
                     case "right":
-                        ref.current.style.width = `${event.clientX - rect.current.left - 10}px`;
+                        ref.current.style.right = `calc(100% - ${event.clientX}px)`;
                         break;
                     case "top":
                         ref.current.style.top = `${event.clientY}px`;
-                        ref.current.style.height = `${rect.current.bottom - event.clientY - 10}px`;
                         break;
                     case "bottom":
                         ref.current.style.height = `${event.clientY - rect.current.top - 10}px`;
                         break;
                     case "top-left":
                         ref.current.style.top = `${event.clientY}px`;
-                        ref.current.style.height = `${rect.current.bottom - event.clientY - 10}px`;
                         ref.current.style.left = `${event.clientX}px`;
-                        ref.current.style.width = `${rect.current.right - event.clientX - 10}px`;
                         break;
                     case "top-right":
                         ref.current.style.top = `${event.clientY}px`;
-                        ref.current.style.height = `${rect.current.bottom - event.clientY - 10}px`;
-                        ref.current.style.width = `${event.clientX - rect.current.left - 10}px`;
+                        ref.current.style.right = `calc(100% - ${event.clientX}px)`;
                         break;
                     case "bottom-left":
-                        ref.current.style.height = `${event.clientY - rect.current.top - 10}px`;
                         ref.current.style.left = `${event.clientX}px`;
-                        ref.current.style.width = `${rect.current.right - event.clientX - 10}px`;
+                        ref.current.style.bottom = `calc(100% - ${event.clientY}px)`;
                         break;
                     case "bottom-right":
-                        ref.current.style.height = `${event.clientY - rect.current.top - 10}px`;
-                        ref.current.style.width = `${event.clientX - rect.current.left - 10}px`;
+                        ref.current.style.bottom = `calc(100% - ${event.clientY}px)`;
+                        ref.current.style.right = `calc(100% - ${event.clientX}px)`;
                         break;
                 }
             }

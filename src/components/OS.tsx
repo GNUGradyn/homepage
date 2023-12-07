@@ -3,11 +3,10 @@ import './OS.css'
 import Window from './Window'
 import StartMenu from "./StartMenu";
 import DesktopIcon from "./DesktopIcon";
-import {DndContext, DragEndEvent, MouseSensor, useSensor, useSensors} from "@dnd-kit/core";
+import {ClientRect, DndContext, DragEndEvent, MouseSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {produce} from "immer"
 import {DraggablesContext} from "../contexts/DraggablesContext";
 import {Windows} from "../models";
-import {CoordinatesMap} from "../models/CoordinatesMap";
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
@@ -20,7 +19,7 @@ const OS = () => {
         setWindows(oldValue => [...oldValue, window]);
     }
 
-    const [draggablePositions, setDraggablePositions] = useState<CoordinatesMap>({});
+    const [draggablePositions, setDraggablePositions] = useState<{[key: string]: ClientRect}>({});
 
     useEffect(() => {
         setTimeout(() => {
@@ -66,10 +65,7 @@ const OS = () => {
             <div id="OS">
                 <DndContext sensors={sensors} onDragEnd={(event: DragEndEvent) => {
                     const result = produce(draggablePositions, draft => {
-                        draft[event.active.id] = {
-                            x: (draggablePositions[event.active.id]?.x ?? 0) + event.delta.x,
-                            y: (draggablePositions[event.active.id]?.y ?? 0) + event.delta.y
-                        }
+                        draft[event.active.id] = event.active.rect.current.translated ?? new DOMRect(0, 0, 0, 0);
                     })
                     setDraggablePositions(result);
                 }}>

@@ -27,8 +27,8 @@ const DesktopIcon = (props: DesktopIconProps) => {
         if (coordinatesMap[props.name] != undefined) {
             if (ref.current != undefined) {
                 ref.current.style.position = "absolute";
-                ref.current.style.top = coordinatesMap[props.name].y + "px";
-                ref.current.style.left = coordinatesMap[props.name].x + "px";
+                ref.current.style.top = coordinatesMap[props.name].top + "px";
+                ref.current.style.left = coordinatesMap[props.name].left + "px";
             }
         }
     }, [coordinatesMap]);
