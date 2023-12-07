@@ -52,20 +52,17 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
 
     const resizeMode = useRef<string>("none");
 
-    const handleClick = (event: any) => {
+    const handleMouseDown = (event: any) => {
         event.stopPropagation();
+        resizing.current = true;
         if (rect.current && ref.current) {
             if (event.clientX > rect.current.right - 6) { // right border
-                ref.current.style.cursor = "w-resize";
                 resizeMode.current = "right";
             } else if (event.clientX < rect.current.left + 6) { // left border
-                ref.current.style.cursor = "w-resize";
                 resizeMode.current = "left";
             } else if (event.clientY > rect.current.bottom - 6) { // bottom border
-                ref.current.style.cursor = "n-resize";
                 resizeMode.current = "bottom";
             } else if (event.clientY < rect.current.top + 6) { // top border
-                ref.current.style.cursor = "n-resize";
                 resizeMode.current = "top";
             } else {
                 ref.current.style.cursor = "auto";
@@ -97,26 +94,21 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         if (rect.current && ref.current) {
             if (event.clientX > rect.current.right - 6) { // right border
                 ref.current.style.cursor = "w-resize";
-                resizeMode.current = "right";
             } else if (event.clientX < rect.current.left + 6) { // left border
                 ref.current.style.cursor = "w-resize";
-                resizeMode.current = "left";
             } else if (event.clientY > rect.current.bottom - 6) { // bottom border
                 ref.current.style.cursor = "n-resize";
-                resizeMode.current = "bottom";
             } else if (event.clientY < rect.current.top + 6) { // top border
                 ref.current.style.cursor = "n-resize";
-                resizeMode.current = "top";
             } else {
                 ref.current.style.cursor = "auto";
-                resizeMode.current = "none";
             }
         }
     }
 
     return (
         <div style={{...props.style, ...style, right: rect.current?.left ?? 0 + props.width, height: props.height}}
-             onMouseMove={handleMouseMove} onClick={handleClick} onLoad={handleLoad} className="window" ref={(el: any) => {
+             onMouseMove={handleMouseMove} onMouseDown={handleMouseDown} onLoad={handleLoad} className="window" ref={(el: any) => {
             ref.current = el;
             setNodeRef(el)
         }}>
