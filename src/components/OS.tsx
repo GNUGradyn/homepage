@@ -3,12 +3,25 @@ import './OS.css'
 import Window from './Window'
 import StartMenu from "./StartMenu";
 import DesktopIcon from "./DesktopIcon";
+import {DndContext, DragEndEvent, useDroppable} from "@dnd-kit/core";
+import {produce} from "immer"
+import {Simulate} from "react-dom/test-utils";
+import ended = Simulate.ended;
+
+export type CoordinatesMap = {
+    [key: string]: {
+      x: number;
+      y: number;
+    };
+  };
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
     const [startupWindowVisible, setStartupWindowVisible] = useState(false);
     const [showTaskbar, setShowTaskbar] = useState(false);
     const [startMenuVisible, setStartMenuVisible] = useState(false);
+
+    const [draggablePositions, setDraggablePositions] = useState<CoordinatesMap>({});
 
     useEffect(() => {
         setTimeout(() => {
@@ -81,9 +94,16 @@ const OS = () => {
     return (
         loaded ?
             <div id="OS">
-                <div id="desktop">
-                    <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")}/>
-                </div>
+                <DndContext onDragEnd={(event: DragEndEvent) => {
+                    const result = produce(draggablePositions, draft => {
+                        draft[event.active.id] = {x: event.delta.x, y: event.delta.y}
+                    })
+                    setDraggablePositions(result);
+                }}>
+                    <div id="desktop">
+                        <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")}/>
+                    </div>
+                </DndContext>
                 {showTaskbar && <div id="taskbar">
                     <div id="start-button" onClick={()=>{setStartMenuVisible((prevState: boolean) => !prevState)}}>
                         <div style={{width: startTextWidth + startIconWidth + 5}}>
