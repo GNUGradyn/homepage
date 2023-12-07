@@ -74,17 +74,23 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         }
     }
 
-    useEffect(() => {
-        window.addEventListener("mousemove", (event: any) => {
-            if (ref.current && rect.current && resizeMode.current !== "none" && resizing) {
-                switch (resizeMode.current) {
-                    case "left":
-                        ref.current.style.left = `${event.clientX}px`;
-                        break;
-                }
-                rect.current = ref.current.getBoundingClientRect()
+    const handleMouseMove = (event: any) => {
+        if (ref.current && rect.current && resizeMode.current !== "none" && resizing) {
+            switch (resizeMode.current) {
+                case "left":
+                    ref.current.style.left = `${event.clientX}px`;
+                    break;
             }
-        })
+            rect.current = ref.current.getBoundingClientRect()
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("mousemove", handleMouseMove)
+
+        return () => {
+            window.removeEventListener("mousemove", handleMouseMove)
+        }
     }, []);
 
     return (
