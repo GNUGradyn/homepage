@@ -100,4 +100,5 @@
     bottom: 3vh;
     left: 0;
     right: 0;
+    overflow: hidden;
 }

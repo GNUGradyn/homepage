@@ -90,7 +90,7 @@ const OS = () => {
 
         };
 
-    }, []);
+    }, [showTaskbar]);
 
     return (
         loaded ?
