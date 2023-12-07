@@ -41,3 +41,8 @@
     left: 0;
     right: 0;
 }
+
+.navbar-buttons {
+    display: flex;
+    flex-direction: row;
+}

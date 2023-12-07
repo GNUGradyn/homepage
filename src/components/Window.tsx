@@ -8,6 +8,10 @@ import {produce} from "immer";
 import NavbarButton from "./NavbarButton";
 // @ts-ignore
 import xSolidIcon from "../assets/x-solid.svg";
+// @ts-ignore
+import MaximizedIcon from "../assets/maximized.svg";
+// @ts-ignore
+import MaximizeIcon from "../assets/maximize.svg";
 
 interface WindowProps {
     title: string
@@ -21,10 +25,13 @@ interface WindowProps {
 
 const Window: React.FC<WindowProps> = (props: WindowProps) => {
 
+    const [maximized, setMaximized] = useState(false);
+
     const {map: coordinatesMap, setMap: setCoordinatesMap} = useDraggables();
 
     const {attributes, listeners, setNodeRef, transform} = useDraggable({
-        id: props.title + "-win"
+        id: props.title + "-win",
+        disabled: maximized
     });
     const style = {
         transform: CSS.Translate.toString(transform),
@@ -35,18 +42,25 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     const rect = useRef<DOMRect>();
 
     useEffect(() => {
-        if (coordinatesMap[props.title + "-win"] != undefined) {
-            if (ref.current != undefined) {
-                ref.current.style.position = "absolute";
-                const rect = coordinatesMap[props.title + "-win"];
-                console.log(coordinatesMap[props.title + "-win"])
-                ref.current.style.right = `calc(100% - (${rect.left}px + ${rect.width}px))`; // For some reason rect.right and rect.bottom are wrong
-                ref.current.style.bottom = `calc(100% - (${rect.top}px + ${rect.height}px))`; // For some reason rect.right and rect.bottom are wrong
-                ref.current.style.top = rect.top + "px";
-                ref.current.style.left = rect.left + "px";
+        if (coordinatesMap[props.title + "-win"] && ref.current) {
+            if (maximized) {
+                ref.current.style.right = "0px";
+                ref.current.style.bottom = "0px";
+                ref.current.style.top = "0px";
+                ref.current.style.left = "0px";
+            } else {
+                if (ref.current != undefined) {
+                    ref.current.style.position = "absolute";
+                    const rect = coordinatesMap[props.title + "-win"];
+                    console.log(coordinatesMap[props.title + "-win"])
+                    ref.current.style.right = `calc(100% - (${rect.left}px + ${rect.width}px))`; // For some reason rect.right and rect.bottom are wrong
+                    ref.current.style.bottom = `calc(100% - (${rect.top}px + ${rect.height}px))`; // For some reason rect.right and rect.bottom are wrong
+                    ref.current.style.top = rect.top + "px";
+                    ref.current.style.left = rect.left + "px";
+                }
             }
         }
-    }, [coordinatesMap]);
+    }, [coordinatesMap, maximized]);
 
     const handleLoad = () => {
         if (ref.current != null) rect.current = ref.current.getBoundingClientRect();
@@ -122,10 +136,6 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         const handleGlobalMouseUp = (event: any) => {
             setResizeMode("none");
             if (ref.current != null) rect.current = ref.current.getBoundingClientRect();
-            const result = produce(coordinatesMap, draft => {
-                draft[props.title + "-win"] = rect.current ?? new DOMRect(0,0,0,0);
-            })
-            //setCoordinatesMap(result);
         }
 
         window.addEventListener("mouseup", handleGlobalMouseUp);
@@ -137,6 +147,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     useEffect(() => {
 
         const handleGlobalMouseMove = (event: any) => {
+            if (maximized) {return}
             if (ref.current && rect.current && resizeMode !== "none") {
                 switch (resizeMode) {
                     case "left":
@@ -176,7 +187,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
         return () => {
             window.removeEventListener("mousemove", handleGlobalMouseMove)
         }
-    }, [ref, resizeMode]);
+    }, [ref, resizeMode, maximized]);
 
     const handleMouseMove = (event: any) => {
         if (rect.current && ref.current && resizeMode === "none") {
@@ -216,8 +227,9 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
                     {props.icon && <img src={props.icon}/>}
                     <p>{props.title}</p>
                 </div>
-                <div>
-                    <NavbarButton icon={xSolidIcon} onClick={props.requestClose}/>
+                <div className="navbar-buttons">
+                    <NavbarButton icon={maximized ? MaximizedIcon : MaximizeIcon} onClick={()=>{setMaximized(oldValue => !oldValue)}}/>
+                    <NavbarButton style={{marginLeft: 5}} icon={xSolidIcon} onClick={props.requestClose}/>
                 </div>
             </div>
             <div className="window-body">
