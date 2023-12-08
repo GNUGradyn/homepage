@@ -7,6 +7,7 @@ import {ClientRect, DndContext, DragEndEvent, MouseSensor, useSensor, useSensors
 import {produce} from "immer"
 import {DraggablesContext} from "../contexts/DraggablesContext";
 import {Windows} from "../models";
+import TaskbarIcon from "./TaskbarIcon";
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
@@ -14,13 +15,28 @@ const OS = () => {
     const [showTaskbar, setShowTaskbar] = useState(false);
     const [startMenuVisible, setStartMenuVisible] = useState(false);
     const [windows, setWindows] = useState<Windows[]>([]);
+    const [windowsVisible, setWindowsVisible] = useState<Windows[]>([]);
 
     const openWindow = (window: Windows) => {
         setWindows(oldValue => [...oldValue, window]);
+        setWindowsVisible(oldValue => [...oldValue, window]);
     }
 
     const closeWindow = (window: Windows) => {
         setWindows(oldValue => oldValue.filter(x => x != window));
+        setWindowsVisible(oldValue => oldValue.filter(x => x != window));
+    }
+
+    const isWindowVisible = (window: Windows) => {
+        return windows.indexOf(window) > -1 && windowsVisible.indexOf(window) > -1;
+    }
+
+    const toggleWindowVisible = (window: Windows) => {
+        if (isWindowVisible(window)) {
+            setWindowsVisible(oldValue => oldValue.filter(x => x != window));
+        } else {
+            setWindowsVisible(oldValue => [...oldValue, window])
+        }
     }
 
     const [draggablePositions, setDraggablePositions] = useState<{[key: string]: ClientRect}>({});
@@ -89,6 +105,7 @@ const OS = () => {
                             <p id="start-text" >Start</p>
                         </div>
                     </div>
+                    {windows.indexOf(Windows.Resume) > -1 && <TaskbarIcon onclick={()=>{toggleWindowVisible(Windows.Resume)}} icon={require("../assets/document_icon.png")} name={"Resume"} open={isWindowVisible(Windows.Resume)}/>}
                     {startMenuVisible && <StartMenu openWindow={(window: Windows) => {openWindow(window); setStartMenuVisible(false)}} ref={startMenuRef}/>}
                 </div>}
             </div>

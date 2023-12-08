@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
     user-select: none;
+    cursor: pointer;
 }
 
 .start-menu-entry img {

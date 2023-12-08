@@ -65,6 +65,7 @@
     border-right: black 2px solid;
     margin: 3px;
     user-select: none;
+    cursor: pointer;
 }
 
 #start-button:active {

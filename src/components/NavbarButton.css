@@ -5,6 +5,7 @@
     border-left: 2px solid white;
     width: 17px;
     height: 17px;
+    cursor: pointer;
 }
 
 .navbar-button div {
