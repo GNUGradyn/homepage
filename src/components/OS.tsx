@@ -8,6 +8,7 @@ import {produce} from "immer"
 import {DraggablesContext} from "../contexts/DraggablesContext";
 import {Windows} from "../models";
 import TaskbarIcon from "./TaskbarIcon";
+import ContactMeWindow from "./ContactMeWindow";
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
@@ -92,8 +93,12 @@ const OS = () => {
                     <DraggablesContext.Provider value={{map: draggablePositions, setMap: setDraggablePositions}}>
                         <div id="desktop">
                             <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")} onClick={()=>{openWindow(Windows.Resume)}}/>
+                            <DesktopIcon name={"Contact Me"} icon={require("../assets/outlook_express-3.png")} onClick={()=>{openWindow(Windows.Contact)}}/>
                             {isWindowVisible(Windows.Resume) && <Window icon={require("../assets/document_icon.png")} title={"Resume"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Resume)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Resume))}}>
                                 <object type="application/pdf" data={require("../assets/resume.pdf")} width={"100%"} height={"100%"}/>
+                            </Window>}
+                            {isWindowVisible(Windows.Contact) && <Window icon={require("../assets/outlook_express-3.png")} title={"Contact Me"} width={"15vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Contact)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Contact))}}>
+                                <ContactMeWindow/>
                             </Window>}
                         </div>
                     </DraggablesContext.Provider>

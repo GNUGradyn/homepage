@@ -23,6 +23,7 @@
 }
 .window-body {
     height: 100%;
+    overflow: hidden;
 }
 
 .window-head-id p {
@@ -46,4 +47,9 @@
 .navbar-buttons {
     display: flex;
     flex-direction: row;
+}
+
+#ContactMeSubmit {
+    width: 95%;
+    margin-top: 10px;
 }

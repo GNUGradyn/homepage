@@ -1,3 +1,4 @@
 export enum Windows {
-    Resume
+    Resume,
+    Contact
 }
