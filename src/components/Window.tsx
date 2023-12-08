@@ -24,6 +24,8 @@ interface WindowProps {
     icon?: string
     requestClose: () => void
     requestMinimize: () => void
+    minWidth: string
+    minHeight: string
 }
 
 const Window: React.FC<WindowProps> = (props: WindowProps) => {
@@ -218,7 +220,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     }
 
     return (
-        <div style={{...props.style, ...style, right: `calc(100% - ${props.width})`, bottom: `calc(100% - ${props.height})`, top: 0, left: 0}}
+        <div style={{...props.style, ...style, right: `calc(100% - ${props.width})`, bottom: `calc(100% - ${props.height})`, top: 0, left: 0, minWidth: props.minWidth, minHeight: props.minHeight}}
              onMouseMove={handleMouseMove} onMouseDown={handleMouseDown} onLoad={handleLoad} className="window" ref={(el: any) => {
             ref.current = el;
             setNodeRef(el)
