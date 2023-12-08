@@ -103,7 +103,7 @@ const OS = () => {
                                 <ContactMeWindow/>
                             </Window>}
                             {isWindowVisible(Windows.VirtualBox) && <Window minWidth={"260px"} minHeight={"260px"} icon={require("../assets/Virtualbox_logo.png")} title={"Virtual Box [Running GradynOS]"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.VirtualBox)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.VirtualBox))}}>
-                                <iframe src={window.location.href} width={"100%"} height={"100%"}/>
+                                <iframe src={"https://gradyn.com/"} width={"100%"} height={"100%"}/>
                             </Window>}
                         </div>
                     </DraggablesContext.Provider>
