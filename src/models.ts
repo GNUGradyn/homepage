@@ -1,5 +1,6 @@
 export enum Windows {
     Resume,
     Contact,
-    VirtualBox
+    VirtualBox,
+    Vscode
 }
