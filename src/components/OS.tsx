@@ -94,11 +94,15 @@ const OS = () => {
                         <div id="desktop">
                             <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")} onClick={()=>{openWindow(Windows.Resume)}}/>
                             <DesktopIcon name={"Contact Me"} icon={require("../assets/outlook_express-3.png")} onClick={()=>{openWindow(Windows.Contact)}}/>
+                            <DesktopIcon name={"Virtual Box"} icon={require("../assets/Virtualbox_logo.png")} onClick={()=>{openWindow(Windows.VirtualBox)}}/>
                             {isWindowVisible(Windows.Resume) && <Window minWidth={"260px"} minHeight={"260px"} icon={require("../assets/document_icon.png")} title={"Resume"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Resume)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Resume))}}>
                                 <object type="application/pdf" data={require("../assets/resume.pdf")} width={"100%"} height={"100%"}/>
                             </Window>}
                             {isWindowVisible(Windows.Contact) && <Window minWidth={"260px"} minHeight={"260px"} icon={require("../assets/message_envelope_open-0.png")} title={"Contact Me"} width={"15vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Contact)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Contact))}}>
                                 <ContactMeWindow/>
+                            </Window>}
+                            {isWindowVisible(Windows.VirtualBox) && <Window minWidth={"260px"} minHeight={"260px"} icon={require("../assets/Virtualbox_logo.png")} title={"Virtual Box [Running GradynOS]"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.VirtualBox)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.VirtualBox))}}>
+                                <iframe src={window.location.href} width={"100%"} height={"100%"}/>
                             </Window>}
                         </div>
                     </DraggablesContext.Provider>
@@ -112,6 +116,7 @@ const OS = () => {
                     </div>
                     {windows.indexOf(Windows.Resume) > -1 && <TaskbarIcon onclick={()=>{toggleWindowVisible(Windows.Resume)}} icon={require("../assets/document_icon.png")} name={"Resume"} open={isWindowVisible(Windows.Resume)}/>}
                     {windows.indexOf(Windows.Contact) > -1 && <TaskbarIcon onclick={()=>{toggleWindowVisible(Windows.Contact)}} icon={require("../assets/message_envelope_open-0.png")} name={"New Message"} open={isWindowVisible(Windows.Contact)}/>}
+                    {windows.indexOf(Windows.VirtualBox) > -1 && <TaskbarIcon onclick={()=>{toggleWindowVisible(Windows.VirtualBox)}} icon={require("../assets/Virtualbox_logo.png")} name={"Virtual Box"} open={isWindowVisible(Windows.VirtualBox)}/>}
                     {startMenuVisible && <StartMenu openWindow={(window: Windows) => {openWindow(window); setStartMenuVisible(false)}} ref={startMenuRef}/>}
                 </div>}
             </div>
@@ -121,7 +126,7 @@ const OS = () => {
             }}>
                 {startupWindowVisible && <div>
                     <DndContext>
-                        <Window minHeight={"0px"}  minWidth={"0px"} requestMinimize={()=>{}} title="Starting Up" height={"50vh"} width={"20vw"} style={{position: "relative", height: "50vh", width: "20vw"}} requestClose={() => {}}>
+                        <Window isRelative minHeight={"0px"}  minWidth={"0px"} requestMinimize={()=>{}} title="Starting Up" height={"50vh"} width={"20vw"} style={{position: "relative", height: "50vh", width: "20vw"}} requestClose={() => {}}>
                             <div id="startup-window-content">
                                 <h1>Starting Gradyn OS</h1>
                                 <img id="startup-img" src={require("../assets/gradyn.png")}/>
