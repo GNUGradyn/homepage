@@ -31,7 +31,7 @@ export default function DosPlayer(props: PlayerProps) {
     useEffect(() => {
         if (dos !== null) {
             dos.run(props.bundleUrl); // ci is returned
-            document.getElementsByClassName("emulator-root")[0].parentElement?.remove() // patch I came up with for loading screen issue - gradyn
+            //document.getElementsByClassName("emulator-root")[0].parentElement?.remove() // patch I came up with for loading screen issue - gradyn
         }
     }, [dos, props.bundleUrl]);
 
