@@ -20,6 +20,12 @@ const ContactMeWindow: React.FC<ContactMeWindowProps> = (props: ContactMeWindowP
             <p>Cc:</p>
             <input disabled/>
         </div>
+        <div id="ContactMeEditor">
+            <textarea placeholder="Your message here.."/>
+        </div>
+        <div style={{width: "100%", textAlign: "center"}}>
+            <button id={"ContactMeSubmit"}>Submit</button>
+        </div>
     </div>
 }
 
