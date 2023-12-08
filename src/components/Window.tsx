@@ -1,5 +1,5 @@
 import "./Window.css"
-import {CSSProperties, useEffect, useRef, useState} from "react";
+import React, {CSSProperties, useEffect, useRef, useState} from "react";
 import useDraggables from "../hooks/useDraggables";
 import {DragEndEvent, useDndMonitor, useDraggable} from "@dnd-kit/core";
 import {CSS} from "@dnd-kit/utilities";
@@ -12,6 +12,8 @@ import xSolidIcon from "../assets/x-solid.svg";
 import MaximizedIcon from "../assets/maximized.svg";
 // @ts-ignore
 import MaximizeIcon from "../assets/maximize.svg";
+// @ts-ignore
+import MinimizeIcon from "../assets/minimize.svg";
 
 interface WindowProps {
     title: string
@@ -21,6 +23,7 @@ interface WindowProps {
     style?: CSSProperties
     icon?: string
     requestClose: () => void
+    requestMinimize: () => void
 }
 
 const Window: React.FC<WindowProps> = (props: WindowProps) => {
@@ -227,6 +230,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
                     <p>{props.title}</p>
                 </div>
                 <div className="navbar-buttons">
+                    <NavbarButton icon={MinimizeIcon} onClick={props.requestMinimize}/>
                     <NavbarButton icon={maximized ? MaximizedIcon : MaximizeIcon} onClick={()=>{setMaximized(oldValue => !oldValue)}}/>
                     <NavbarButton style={{marginLeft: 5}} icon={xSolidIcon} onClick={props.requestClose}/>
                 </div>
