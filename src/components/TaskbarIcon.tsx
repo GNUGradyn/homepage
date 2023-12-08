@@ -9,7 +9,7 @@ interface TaskbarIconProps {
 }
 
 const TaskbarIcon: React.FC<TaskbarIconProps> = (props: TaskbarIconProps) => {
-    return <div className={props.open ? "taskbar-icon selected" : "taskbar-icon"}>
+    return <div className={props.open ? "taskbar-icon selected" : "taskbar-icon"} onClick={props.onclick}>
         <div>
             <img src={props.icon}/>
             <p>{props.name}</p>
