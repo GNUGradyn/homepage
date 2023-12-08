@@ -50,6 +50,10 @@
     resize: none;
 }
 
+textarea:focus, input:focus{
+    outline: none;
+}
+
 #ContactMeSubmit {
     width: 94%;
     border-top: white outset 3px;
@@ -57,3 +61,4 @@
     border-bottom: black outset 3px;
     border-right: black outset 3px;
 }
+

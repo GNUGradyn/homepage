@@ -111,6 +111,7 @@ const OS = () => {
                         </div>
                     </div>
                     {windows.indexOf(Windows.Resume) > -1 && <TaskbarIcon onclick={()=>{toggleWindowVisible(Windows.Resume)}} icon={require("../assets/document_icon.png")} name={"Resume"} open={isWindowVisible(Windows.Resume)}/>}
+                    {windows.indexOf(Windows.Contact) > -1 && <TaskbarIcon onclick={()=>{toggleWindowVisible(Windows.Contact)}} icon={require("../assets/message_envelope_open-0.png")} name={"New Message"} open={isWindowVisible(Windows.Contact)}/>}
                     {startMenuVisible && <StartMenu openWindow={(window: Windows) => {openWindow(window); setStartMenuVisible(false)}} ref={startMenuRef}/>}
                 </div>}
             </div>
