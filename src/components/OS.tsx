@@ -97,7 +97,7 @@ const OS = () => {
                             {isWindowVisible(Windows.Resume) && <Window icon={require("../assets/document_icon.png")} title={"Resume"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Resume)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Resume))}}>
                                 <object type="application/pdf" data={require("../assets/resume.pdf")} width={"100%"} height={"100%"}/>
                             </Window>}
-                            {isWindowVisible(Windows.Contact) && <Window icon={require("../assets/outlook_express-3.png")} title={"Contact Me"} width={"15vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Contact)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Contact))}}>
+                            {isWindowVisible(Windows.Contact) && <Window icon={require("../assets/message_envelope_open-0.png")} title={"Contact Me"} width={"15vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Contact)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Contact))}}>
                                 <ContactMeWindow/>
                             </Window>}
                         </div>

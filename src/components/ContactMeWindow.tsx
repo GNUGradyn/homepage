@@ -9,19 +9,17 @@ interface ContactMeWindowProps {
 const ContactMeWindow: React.FC<ContactMeWindowProps> = (props: ContactMeWindowProps) => {
     return <div id="ContactMe">
         <div className="ContactMeField">
-            <p>to email:</p>
+            <p>From:</p>
+            <input placeholder="example@mail.com"/>
+        </div>
+        <div className="ContactMeField">
+            <p>To:</p>
             <input value="me@gradyn.com" disabled/>
         </div>
         <div className="ContactMeField">
-            <p>from email:</p>
-            <input/>
+            <p>Cc:</p>
+            <input disabled/>
         </div>
-        <div className="ContactMeField">
-            <p>Subject:</p>
-            <input/>
-        </div>
-        <textarea/>
-        <button id="ContactMeSubmit">Send Email</button>
     </div>
 }
 
