@@ -31,3 +31,8 @@
     border-bottom: white solid 3px;
     border-right: white solid 3px;
 }
+
+.taskbar-icon.selected div {
+    border-top: #7e7e90 solid 3px;
+    border-left: #7e7e90 solid 3px;
+}
