@@ -28,7 +28,7 @@ const useWindows = () => {
         }
     }
 
-    return { windows, setWindows, openWindow, closeWindow, toggleWindowVisible, windowsVisible, setWindowsVisible };
+    return { windows, setWindows, openWindow, closeWindow, toggleWindowVisible, windowsVisible, setWindowsVisible, isWindowVisible };
 }
 
 export default useWindows;

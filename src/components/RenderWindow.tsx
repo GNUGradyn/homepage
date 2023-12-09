@@ -14,7 +14,7 @@ interface RenderWindowProps {
     content: ReactNode
 }
 
-const renderWindow = ({
+const RenderWindow = ({
                           windowType,
                           minWidth,
                           minHeight,
@@ -53,4 +53,4 @@ const renderWindow = ({
     );
 }
 
-export default renderWindow;
+export default RenderWindow;

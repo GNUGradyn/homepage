@@ -11,16 +11,16 @@ import TaskbarIcon from "./TaskbarIcon";
 import ContactMeWindow from "./ContactMeWindow";
 import DosPlayer from "./DOOM";
 import RenderWindow from "./RenderWindow";
+import useWindows from "../hooks/useWindows";
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
     const [startupWindowVisible, setStartupWindowVisible] = useState(false);
     const [showTaskbar, setShowTaskbar] = useState(false);
     const [startMenuVisible, setStartMenuVisible] = useState(false);
-    const [windows, setWindows] = useState<Windows[]>([]);
-    const [windowsVisible, setWindowsVisible] = useState<Windows[]>([]);
-
     const [draggablePositions, setDraggablePositions] = useState<{ [key: string]: ClientRect }>({});
+
+    const {openWindow, isWindowVisible, toggleWindowVisible, windows} = useWindows();
 
     useEffect(() => {
         setTimeout(() => {
