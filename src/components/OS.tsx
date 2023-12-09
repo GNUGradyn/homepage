@@ -9,7 +9,7 @@ import {DraggablesContext} from "../contexts/DraggablesContext";
 import {Windows} from "../models";
 import TaskbarIcon from "./TaskbarIcon";
 import ContactMeWindow from "./ContactMeWindow";
-import DosPlayer from "./DOOM";
+import DosPlayer from "./DosPlayer";
 import RenderWindow from "./RenderWindow";
 import useWindows from "../hooks/useWindows";
 
