@@ -9,10 +9,11 @@ function App() {
   const [booted, setBooted] = useState(false);
   const [windows, setWindows] = useState<Windows[]>([]);
   const [windowsVisible, setWindowsVisible] = useState<Windows[]>([]);
+  const [windowsCovered, setWindowsCovered] = useState<Windows[]>([]);
 
   return (
     <div className="App">
-      <WindowsContext.Provider value={{windows, setWindows, windowsVisible, setWindowsVisible}}>
+      <WindowsContext.Provider value={{windows, setWindows, windowsVisible, setWindowsVisible, windowsCovered, setWindowsCovered}}>
         {booted ? <OS/> : <BIOS setBooted={setBooted}/>}
       </WindowsContext.Provider>
     </div>

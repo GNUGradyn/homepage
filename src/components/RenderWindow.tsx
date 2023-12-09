@@ -16,7 +16,7 @@ interface RenderWindowProps {
 
 const RenderWindow = (props: RenderWindowProps) => {
 
-    const {windows, windowsVisible, closeWindow, setWindowsVisible} = useWindows();
+    const {windows, windowsVisible, closeWindow, setWindowsVisible, windowsCovered} = useWindows();
 
     if (windows.indexOf(props.windowType) === -1) {
         return null;
@@ -38,7 +38,7 @@ const RenderWindow = (props: RenderWindowProps) => {
             height={props.height}
             requestClose={handleClose}
             requestMinimize={handleMinimize}
-        >
+            isCovered={windowsCovered.indexOf(props.windowType) > -1}>
             {props.content}
         </Window>
     );

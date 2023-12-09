@@ -4,7 +4,7 @@ import {Windows} from "../models";
 
 
 const useWindows = () => {
-    const {windows, setWindows, windowsVisible, setWindowsVisible} = useContext(WindowsContext);
+    const {windows, setWindows, windowsVisible, setWindowsVisible, windowsCovered, setWindowsCovered} = useContext(WindowsContext);
 
     const openWindow = (window: Windows) => {
         setWindows((oldValue: Windows[]) => [...oldValue, window]);
@@ -28,7 +28,7 @@ const useWindows = () => {
         }
     }
 
-    return { windows, setWindows, openWindow, closeWindow, toggleWindowVisible, windowsVisible, setWindowsVisible, isWindowVisible };
+    return { windows, setWindows, openWindow, closeWindow, toggleWindowVisible, windowsVisible, setWindowsVisible, isWindowVisible, windowsCovered, setWindowsCovered };
 }
 
 export default useWindows;

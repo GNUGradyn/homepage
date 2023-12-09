@@ -12,6 +12,7 @@ import ContactMeWindow from "./ContactMeWindow";
 import DosPlayer from "./DosPlayer";
 import RenderWindow from "./RenderWindow";
 import useWindows from "../hooks/useWindows";
+import {findOverlappingKeys} from "../hooks/rects";
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
@@ -20,7 +21,7 @@ const OS = () => {
     const [startMenuVisible, setStartMenuVisible] = useState(false);
     const [draggablePositions, setDraggablePositions] = useState<{ [key: string]: ClientRect }>({});
 
-    const {openWindow, isWindowVisible, toggleWindowVisible, windows} = useWindows();
+    const {openWindow, isWindowVisible, toggleWindowVisible, windows, setWindowsCovered} = useWindows();
 
     useEffect(() => {
         setTimeout(() => {
@@ -60,6 +61,10 @@ const OS = () => {
 
     const mouseSensor = useSensor(MouseSensor, {activationConstraint: {distance: 15}})
     const sensors = useSensors(mouseSensor);
+
+    useEffect(() => {
+        setWindowsCovered(findOverlappingKeys(draggablePositions))
+    }, [draggablePositions]);
 
     return (
         loaded ?
@@ -167,7 +172,7 @@ const OS = () => {
             }}>
                 {startupWindowVisible && <div>
                     <DndContext>
-                        <Window minimized={false} isRelative minHeight={"0px"} minWidth={"0px"} requestMinimize={() => {
+                        <Window isCovered={false} minimized={false} isRelative minHeight={"0px"} minWidth={"0px"} requestMinimize={() => {
                         }} title="Starting Up" height={"50vh"} width={"20vw"}
                                 style={{position: "relative", height: "50vh", width: "20vw"}} requestClose={() => {
                         }}>

@@ -28,6 +28,7 @@ interface WindowProps {
     minHeight: string
     isRelative?: boolean
     minimized: boolean
+    isCovered: boolean
 }
 
 const Window: React.FC<WindowProps> = (props: WindowProps) => {
