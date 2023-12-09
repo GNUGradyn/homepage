@@ -9,6 +9,7 @@
     z-index: 1;
     cursor: pointer;
     user-select: none;
+    width: 105px; /*so they're aligned*/
 }
 
 .desktop-icon p {
