@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useMemo, useRef, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import './OS.css'
 import Window from './Window'
 import StartMenu from "./StartMenu";
@@ -12,7 +12,7 @@ import ContactMeWindow from "./ContactMeWindow";
 import DosPlayer from "./DosPlayer";
 import RenderWindow from "./RenderWindow";
 import useWindows from "../hooks/useWindows";
-import {findOverlappingKeys} from "../hooks/rects";
+import {findCoveredWindows} from "../hooks/rects";
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
@@ -63,7 +63,8 @@ const OS = () => {
     const sensors = useSensors(mouseSensor);
 
     useEffect(() => {
-        setWindowsCovered(findOverlappingKeys(draggablePositions))
+        setWindowsCovered(findCoveredWindows(draggablePositions, windows))
+
     }, [draggablePositions]);
 
     return (
@@ -172,7 +173,7 @@ const OS = () => {
             }}>
                 {startupWindowVisible && <div>
                     <DndContext>
-                        <Window isCovered={false} minimized={false} isRelative minHeight={"0px"} minWidth={"0px"} requestMinimize={() => {
+                        <Window requestFocus={()=>{}} order={1} id={Windows.Contact} isCovered={false} minimized={false} isRelative minHeight={"0px"} minWidth={"0px"} requestMinimize={() => {
                         }} title="Starting Up" height={"50vh"} width={"20vw"}
                                 style={{position: "relative", height: "50vh", width: "20vw"}} requestClose={() => {
                         }}>

@@ -14,8 +14,10 @@ import MaximizedIcon from "../assets/maximized.svg";
 import MaximizeIcon from "../assets/maximize.svg";
 // @ts-ignore
 import MinimizeIcon from "../assets/minimize.svg";
+import {Windows} from "../models";
 
 interface WindowProps {
+    id: Windows
     title: string
     children: React.ReactNode
     width: string
@@ -29,6 +31,8 @@ interface WindowProps {
     isRelative?: boolean
     minimized: boolean
     isCovered: boolean
+    order: number
+    requestFocus: () => void
 }
 
 const Window: React.FC<WindowProps> = (props: WindowProps) => {
@@ -38,7 +42,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     const {map: coordinatesMap, setMap: setCoordinatesMap} = useDraggables();
 
     const {attributes, listeners, setNodeRef, transform} = useDraggable({
-        id: props.title + "-win",
+        id: props.id,
         disabled: maximized
     });
     const style = {
@@ -58,8 +62,8 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
                 ref.current.style.top = "0px";
                 ref.current.style.left = "0px";
             } else {
-                if (ref.current && coordinatesMap[props.title + "-win"]) {
-                    const rect = coordinatesMap[props.title + "-win"];
+                if (ref.current && coordinatesMap[props.id]) {
+                    const rect = coordinatesMap[props.id];
                     ref.current.style.right = `calc(100% - (${rect.left}px + ${rect.width}px))`; // For some reason rect.right and rect.bottom are wrong
                     ref.current.style.bottom = `calc(100% - (${rect.top}px + ${rect.height}px))`; // For some reason rect.right and rect.bottom are wrong
                     ref.current.style.top = rect.top + "px";
@@ -83,6 +87,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
 
     const handleMouseDown = (event: any) => {
         event.stopPropagation();
+        props.requestFocus();
         if (rect.current && ref.current) {
             // top right
             if (event.clientX > rect.current.right - 6 && event.clientY < rect.current.top + 6) {
@@ -223,12 +228,12 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     }
 
     return (
-        <div style={{...props.style, ...style, right: `calc(100% - ${props.width})`, bottom: `calc(100% - ${props.height})`, top: 0, left: 0, minWidth: props.minWidth, minHeight: props.minHeight, position: props.isRelative ? "relative" : "absolute", display: props.minimized ? "none" : "flex"}}
+        <div style={{...props.style, ...style, right: `calc(100% - ${props.width})`, bottom: `calc(100% - ${props.height})`, top: 0, left: 0, minWidth: props.minWidth, minHeight: props.minHeight, position: props.isRelative ? "relative" : "absolute", display: props.minimized ? "none" : "flex", zIndex: props.order}}
              onMouseMove={handleMouseMove} onMouseDown={handleMouseDown} onLoad={handleLoad} className="window" ref={(el: any) => {
             ref.current = el;
             setNodeRef(el)
         }}>
-            {resizeMode != "none" && <div className="overlay"></div>}
+            {(resizeMode != "none" || props.isCovered) && <div className="overlay"></div>}
             <div className="window-head" {...listeners} {...attributes}>
                 <div className="window-head-id">
                     {props.icon && <img src={props.icon}/>}

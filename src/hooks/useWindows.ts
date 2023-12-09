@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import {WindowsContext} from "../contexts/WindowsContext";
 import {Windows} from "../models";
+import {produce} from "immer";
 
 
 const useWindows = () => {
@@ -28,7 +29,14 @@ const useWindows = () => {
         }
     }
 
-    return { windows, setWindows, openWindow, closeWindow, toggleWindowVisible, windowsVisible, setWindowsVisible, isWindowVisible, windowsCovered, setWindowsCovered };
+    const focusWindow = (window: Windows) => {
+        const result = produce(windows, draft => {
+            draft.push(draft.splice(draft.indexOf(window), 1)[0]);
+        })
+        setWindows(result);
+    }
+
+    return { windows, setWindows, openWindow, closeWindow, toggleWindowVisible, windowsVisible, setWindowsVisible, isWindowVisible, windowsCovered, setWindowsCovered, focusWindow };
 }
 
 export default useWindows;

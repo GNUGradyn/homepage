@@ -6,8 +6,8 @@ interface WindowsContextProps {
     setWindows: (value: React.SetStateAction<Windows[]>) => void
     windowsVisible: Windows[]
     setWindowsVisible: (value: React.SetStateAction<Windows[]>) => void
-    windowsCovered: string[]
-    setWindowsCovered: (value: React.SetStateAction<string[]>) => void
+    windowsCovered: Windows[]
+    setWindowsCovered: (value: React.SetStateAction<Windows[]>) => void
 }
 
 export const WindowsContext = createContext<WindowsContextProps>({
@@ -16,5 +16,5 @@ export const WindowsContext = createContext<WindowsContextProps>({
     windowsVisible: [],
     setWindowsVisible: (value: React.SetStateAction<Windows[]>) => {},
     windowsCovered: [],
-    setWindowsCovered: (value: React.SetStateAction<string[]>) => {}
+    setWindowsCovered: (value: React.SetStateAction<Windows[]>) => {}
 });

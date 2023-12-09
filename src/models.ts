@@ -1,6 +1,6 @@
 export enum Windows {
-    Resume,
-    Contact,
-    VirtualBox,
-    DOOM
+    Resume = "Resume",
+    Contact = "Contact",
+    VirtualBox = "VirtualBox",
+    DOOM = "Doom"
 }
