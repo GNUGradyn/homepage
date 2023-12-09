@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react"
+import React, {ReactNode, useEffect, useRef, useState} from "react"
 import './OS.css'
 import Window from './Window'
 import StartMenu from "./StartMenu";
@@ -41,7 +41,7 @@ const OS = () => {
         }
     }
 
-    const [draggablePositions, setDraggablePositions] = useState<{[key: string]: ClientRect}>({});
+    const [draggablePositions, setDraggablePositions] = useState<{ [key: string]: ClientRect }>({});
 
     useEffect(() => {
         setTimeout(() => {
@@ -82,6 +82,53 @@ const OS = () => {
     const mouseSensor = useSensor(MouseSensor, {activationConstraint: {distance: 15}})
     const sensors = useSensors(mouseSensor);
 
+    interface RenderWindowProps {
+        windowType: Windows
+        minWidth: string
+        minHeight: string
+        icon: string
+        title: string
+        width: string
+        height: string
+        content: ReactNode
+    }
+
+    const RenderWindow: React.FC<RenderWindowProps> = ({
+                                                           windowType,
+                                                           minWidth,
+                                                           minHeight,
+                                                           icon,
+                                                           title,
+                                                           width,
+                                                           height,
+                                                           content
+                                                       }) => {
+        if (windows.indexOf(windowType) === -1) {
+            return null;
+        }
+
+        const isMinimized = windowsVisible.indexOf(windowType) === -1;
+
+        const handleClose = () => closeWindow(windowType);
+        const handleMinimize = () => setWindowsVisible(oldValue => oldValue.filter(x => x !== windowType));
+
+        return (
+            <Window
+                minimized={isMinimized}
+                minWidth={minWidth}
+                minHeight={minHeight}
+                icon={icon}
+                title={title}
+                width={width}
+                height={height}
+                requestClose={handleClose}
+                requestMinimize={handleMinimize}
+            >
+                {content}
+            </Window>
+        );
+    };
+
     return (
         loaded ?
             <div id="OS">
@@ -93,38 +140,93 @@ const OS = () => {
                 }}>
                     <DraggablesContext.Provider value={{map: draggablePositions, setMap: setDraggablePositions}}>
                         <div id="desktop">
-                            <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")} onClick={()=>{openWindow(Windows.Resume)}}/>
-                            <DesktopIcon name={"Contact Me"} icon={require("../assets/outlook_express-3.png")} onClick={()=>{openWindow(Windows.Contact)}}/>
-                            <DesktopIcon name={"Virtual Box"} icon={require("../assets/Virtualbox_logo.png")} onClick={()=>{openWindow(Windows.VirtualBox)}}/>
-                            <DesktopIcon name={"DOOM"} icon={require("../assets/Doom.png")} onClick={()=>{openWindow(Windows.DOOM)}}/>
-
-                            {windows.indexOf(Windows.Resume) > -1 && <Window minimized={windowsVisible.indexOf(Windows.Resume) === -1} minWidth={"260px"} minHeight={"260px"} icon={require("../assets/document_icon.png")} title={"Resume"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Resume)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Resume))}}>
-                                <object type="application/pdf" data={require("../assets/resume.pdf")} width={"100%"} height={"100%"}/>
-                            </Window>}
-                            {windows.indexOf(Windows.Contact) > -1 && <Window minimized={windowsVisible.indexOf(Windows.Contact) === -1} minWidth={"260px"} minHeight={"260px"} icon={require("../assets/message_envelope_open-0.png")} title={"Contact Me"} width={"15vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Contact)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Contact))}}>
-                                <ContactMeWindow/>
-                            </Window>}
-                            {windows.indexOf(Windows.VirtualBox) > -1 && <Window minimized={windowsVisible.indexOf(Windows.VirtualBox) === -1} minWidth={"260px"} minHeight={"260px"} icon={require("../assets/Virtualbox_logo.png")} title={"Virtual Box [Running GradynOS]"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.VirtualBox)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.VirtualBox))}}>
-                                <iframe src={"https://gradyn.com/?" + (Math.random() + 1).toString(36).substring(7)} width={"100%"} height={"100%"}/>
-                            </Window>}
-                            {windows.indexOf(Windows.DOOM) > -1 && <Window minimized={windowsVisible.indexOf(Windows.DOOM) === -1} minWidth={"640px"} minHeight={"400px"} icon={require("../assets/Doom.png")} title={"DOOM by ID Software"} width={"640px"} height={"400px"} requestClose={() => {closeWindow(Windows.DOOM)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.DOOM))}}>
-                                <DosPlayer bundleUrl="DOOM.jsdos" />
-                            </Window>}
+                            <DesktopIcon name={"Resume"} icon={require("../assets/document_icon.png")} onClick={() => {
+                                openWindow(Windows.Resume)
+                            }}/>
+                            <DesktopIcon name={"Contact Me"} icon={require("../assets/outlook_express-3.png")}
+                                         onClick={() => {
+                                             openWindow(Windows.Contact)
+                                         }}/>
+                            <DesktopIcon name={"Virtual Box"} icon={require("../assets/Virtualbox_logo.png")}
+                                         onClick={() => {
+                                             openWindow(Windows.VirtualBox)
+                                         }}/>
+                            <DesktopIcon name={"DOOM"} icon={require("../assets/Doom.png")} onClick={() => {
+                                openWindow(Windows.DOOM)
+                            }}/>
+                            <RenderWindow
+                                windowType={Windows.Resume}
+                                minWidth="260px"
+                                minHeight="260px"
+                                icon={require("../assets/document_icon.png")}
+                                title="Resume"
+                                width="40vw"
+                                height="60vh"
+                                content={<object type="application/pdf" data={require("../assets/resume.pdf")} width="100%" height="100%"/>}
+                            />
+                            <RenderWindow
+                                windowType={Windows.Contact}
+                                minWidth="260px"
+                                minHeight="260px"
+                                icon={require("../assets/message_envelope_open-0.png")}
+                                title="Contact Me"
+                                width="15vw"
+                                height="60vh"
+                                content={<ContactMeWindow/>}
+                            />
+                            <RenderWindow
+                                windowType={Windows.VirtualBox}
+                                minWidth="260px"
+                                minHeight="260px"
+                                icon={require("../assets/Virtualbox_logo.png")}
+                                title="Virtual Box [Running GradynOS]"
+                                width="40vw"
+                                height="60vh"
+                                content={<iframe
+                                    src={"https://gradyn.com/?" + (Math.random() + 1).toString(36).substring(7)}
+                                    width={"100%"} height={"100%"}/>}
+                            />
+                            <RenderWindow
+                                windowType={Windows.VirtualBox}
+                                minWidth="640px"
+                                minHeight="400px"
+                                icon={require("../assets/Doom.png")}
+                                title="DOOM by ID Software"
+                                width="640px"
+                                height="400px"
+                                content={<DosPlayer bundleUrl="DOOM.jsdos"/>}
+                            />
                         </div>
                     </DraggablesContext.Provider>
                 </DndContext>
                 {showTaskbar && <div id="taskbar">
-                    <div id="start-button" onClick={()=>{setStartMenuVisible((prevState: boolean) => !prevState)}}>
+                    <div id="start-button" onClick={() => {
+                        setStartMenuVisible((prevState: boolean) => !prevState)
+                    }}>
                         <div style={{width: 70}}>
                             <img id="start-icon" src={require("../assets/start.png")}/>
-                            <p id="start-text" >Start</p>
+                            <p id="start-text">Start</p>
                         </div>
                     </div>
-                    {windows.indexOf(Windows.Resume) > -1 && <TaskbarIcon onclick={()=>{toggleWindowVisible(Windows.Resume)}} icon={require("../assets/document_icon.png")} name={"Resume"} open={isWindowVisible(Windows.Resume)}/>}
-                    {windows.indexOf(Windows.Contact) > -1 && <TaskbarIcon onclick={()=>{toggleWindowVisible(Windows.Contact)}} icon={require("../assets/message_envelope_open-0.png")} name={"New Message"} open={isWindowVisible(Windows.Contact)}/>}
-                    {windows.indexOf(Windows.VirtualBox) > -1 && <TaskbarIcon onclick={()=>{toggleWindowVisible(Windows.VirtualBox)}} icon={require("../assets/Virtualbox_logo.png")} name={"Virtual Box"} open={isWindowVisible(Windows.VirtualBox)}/>}
-                    {windows.indexOf(Windows.DOOM) > -1 && <TaskbarIcon onclick={()=>{toggleWindowVisible(Windows.DOOM)}} icon={require("../assets/Doom.png")} name={"DOOM"} open={isWindowVisible(Windows.DOOM)}/>}
-                    {startMenuVisible && <StartMenu openWindow={(window: Windows) => {openWindow(window); setStartMenuVisible(false)}} ref={startMenuRef}/>}
+                    {windows.indexOf(Windows.Resume) > -1 && <TaskbarIcon onclick={() => {
+                        toggleWindowVisible(Windows.Resume)
+                    }} icon={require("../assets/document_icon.png")} name={"Resume"}
+                                                                          open={isWindowVisible(Windows.Resume)}/>}
+                    {windows.indexOf(Windows.Contact) > -1 && <TaskbarIcon onclick={() => {
+                        toggleWindowVisible(Windows.Contact)
+                    }} icon={require("../assets/message_envelope_open-0.png")} name={"New Message"}
+                                                                           open={isWindowVisible(Windows.Contact)}/>}
+                    {windows.indexOf(Windows.VirtualBox) > -1 && <TaskbarIcon onclick={() => {
+                        toggleWindowVisible(Windows.VirtualBox)
+                    }} icon={require("../assets/Virtualbox_logo.png")} name={"Virtual Box"}
+                                                                              open={isWindowVisible(Windows.VirtualBox)}/>}
+                    {windows.indexOf(Windows.DOOM) > -1 && <TaskbarIcon onclick={() => {
+                        toggleWindowVisible(Windows.DOOM)
+                    }} icon={require("../assets/Doom.png")} name={"DOOM"} open={isWindowVisible(Windows.DOOM)}/>}
+                    {startMenuVisible && <StartMenu openWindow={(window: Windows) => {
+                        openWindow(window);
+                        setStartMenuVisible(false)
+                    }} ref={startMenuRef}/>}
                 </div>}
             </div>
             :
@@ -133,7 +235,10 @@ const OS = () => {
             }}>
                 {startupWindowVisible && <div>
                     <DndContext>
-                        <Window minimized={false} isRelative minHeight={"0px"}  minWidth={"0px"} requestMinimize={()=>{}} title="Starting Up" height={"50vh"} width={"20vw"} style={{position: "relative", height: "50vh", width: "20vw"}} requestClose={() => {}}>
+                        <Window minimized={false} isRelative minHeight={"0px"} minWidth={"0px"} requestMinimize={() => {
+                        }} title="Starting Up" height={"50vh"} width={"20vw"}
+                                style={{position: "relative", height: "50vh", width: "20vw"}} requestClose={() => {
+                        }}>
                             <div id="startup-window-content">
                                 <h1>Starting Gradyn OS</h1>
                                 <img id="startup-img" src={require("../assets/gradyn.png")}/>
