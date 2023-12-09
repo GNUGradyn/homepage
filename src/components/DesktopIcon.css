@@ -8,6 +8,7 @@
     padding: 10px;
     z-index: 1;
     cursor: pointer;
+    user-select: none;
 }
 
 .desktop-icon p {
