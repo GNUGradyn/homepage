@@ -14,41 +14,32 @@ interface RenderWindowProps {
     content: ReactNode
 }
 
-const RenderWindow = ({
-                          windowType,
-                          minWidth,
-                          minHeight,
-                          icon,
-                          title,
-                          width,
-                          height,
-                          content
-                      }: RenderWindowProps) => {
+const RenderWindow = (props: RenderWindowProps) => {
 
     const {windows, windowsVisible, closeWindow, setWindowsVisible} = useWindows();
 
-    if (windows.indexOf(windowType) === -1) {
+    if (windows.indexOf(props.windowType) === -1) {
         return null;
     }
 
-    const isMinimized = windowsVisible.indexOf(windowType) === -1;
+    const isMinimized = windowsVisible.indexOf(props.windowType) === -1;
 
-    const handleClose = () => closeWindow(windowType);
-    const handleMinimize = () => setWindowsVisible(oldValue => oldValue.filter(x => x !== windowType));
+    const handleClose = () => closeWindow(props.windowType);
+    const handleMinimize = () => setWindowsVisible(oldValue => oldValue.filter(x => x !== props.windowType));
 
     return (
         <Window
             minimized={isMinimized}
-            minWidth={minWidth}
-            minHeight={minHeight}
-            icon={icon}
-            title={title}
-            width={width}
-            height={height}
+            minWidth={props.minWidth}
+            minHeight={props.minHeight}
+            icon={props.icon}
+            title={props.title}
+            width={props.width}
+            height={props.height}
             requestClose={handleClose}
             requestMinimize={handleMinimize}
         >
-            {content}
+            {props.content}
         </Window>
     );
 }
