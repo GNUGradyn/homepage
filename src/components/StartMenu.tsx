@@ -13,6 +13,9 @@ const StartMenu = forwardRef((props: StartMenuProps, ref: React.ForwardedRef<HTM
             <div id="InnerStartMenu" ref={ref}>
                 <StartMenuEntry name={"Resume"} icon={require("../assets/document_icon.png")} onClick={()=>{props.openWindow(Windows.Resume)}}/>
                 <StartMenuEntry name={"Contact Me"} icon={require("../assets/outlook_express-3.png")} onClick={()=>{props.openWindow(Windows.Contact)}}/>
+                <StartMenuEntry name={"Virtual Box"} icon={require("../assets/Virtualbox_logo.png")} onClick={()=>{props.openWindow(Windows.VirtualBox)}}/>
+                <StartMenuEntry name={"DOOM"} icon={require("../assets/Doom.png")} onClick={()=>{props.openWindow(Windows.DOOM)}}/>
+
             </div>
         </div>
     )

@@ -1,4 +1,6 @@
 export enum Windows {
     Resume,
-    Contact
+    Contact,
+    VirtualBox,
+    DOOM
 }

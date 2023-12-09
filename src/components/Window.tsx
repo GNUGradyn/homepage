@@ -24,6 +24,10 @@ interface WindowProps {
     icon?: string
     requestClose: () => void
     requestMinimize: () => void
+    minWidth: string
+    minHeight: string
+    isRelative?: boolean
+    minimized: boolean
 }
 
 const Window: React.FC<WindowProps> = (props: WindowProps) => {
@@ -46,7 +50,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
 
     useEffect(() => {
         if (ref.current) {
-            ref.current.style.position = "absolute";
+            ref.current.style.position = props.isRelative ? "relative" : "absolute";
             if (maximized) {
                 ref.current.style.right = "0px";
                 ref.current.style.bottom = "0px";
@@ -218,7 +222,7 @@ const Window: React.FC<WindowProps> = (props: WindowProps) => {
     }
 
     return (
-        <div style={{...props.style, ...style, right: `calc(100% - ${props.width})`, bottom: `calc(100% - ${props.height})`, top: 0, left: 0}}
+        <div style={{...props.style, ...style, right: `calc(100% - ${props.width})`, bottom: `calc(100% - ${props.height})`, top: 0, left: 0, minWidth: props.minWidth, minHeight: props.minHeight, position: props.isRelative ? "relative" : "absolute", display: props.minimized ? "none" : "flex"}}
              onMouseMove={handleMouseMove} onMouseDown={handleMouseDown} onLoad={handleLoad} className="window" ref={(el: any) => {
             ref.current = el;
             setNodeRef(el)

@@ -1,5 +1,5 @@
 import "./ContactMeWindow.css"
-import React from "react";
+import React, {useRef, useState} from "react";
 
 
 interface ContactMeWindowProps {
@@ -7,10 +7,49 @@ interface ContactMeWindowProps {
 }
 
 const ContactMeWindow: React.FC<ContactMeWindowProps> = (props: ContactMeWindowProps) => {
+
+    const emailRef = useRef<HTMLInputElement>(null);
+    const messageRef = useRef<HTMLTextAreaElement>(null);
+
+    const [sendingEmail,setSendingEmail] = useState(false);
+    const [sentEmail,setSentEmail] = useState(false);
+    const [emailWasSuccessful, setEmailWasSuccessful] = useState(true);
+
+
+    const handleClick = () => {
+        setSendingEmail(true);
+        const myHeaders = new Headers();
+        myHeaders.append("accept", "*/*");
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "email": emailRef.current?.value,
+            "message": messageRef.current?.value
+        });
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+        };
+
+        fetch("https://api.gradyn.com/mail", requestOptions)
+            .then(result => {
+                setSentEmail(true)
+                setSendingEmail(false);
+            })
+            .catch(error => {
+                console.log('error', error)
+                setSentEmail(true)
+                setSendingEmail(false);
+                setEmailWasSuccessful(false);
+            });
+    }
+
     return <div id="ContactMe">
         <div className="ContactMeField">
             <p>From:</p>
-            <input placeholder="example@mail.com"/>
+            <input ref={emailRef} placeholder="example@mail.com"/>
         </div>
         <div className="ContactMeField">
             <p>To:</p>
@@ -21,10 +60,12 @@ const ContactMeWindow: React.FC<ContactMeWindowProps> = (props: ContactMeWindowP
             <input disabled/>
         </div>
         <div id="ContactMeEditor">
-            <textarea placeholder="Your message here.."/>
+            <textarea ref={messageRef} placeholder="Your message here.."/>
         </div>
         <div style={{width: "100%", textAlign: "center"}}>
-            <button id={"ContactMeSubmit"}>Submit</button>
+            {sentEmail ? <button id={"ContactMeSubmit"} disabled>{emailWasSuccessful ? "Sent" : "Error"}</button> : sendingEmail ?
+                <button id={"ContactMeSubmit"} disabled>Sending</button> :
+                <button onClick={handleClick} id={"ContactMeSubmit"}>Submit</button>}
         </div>
     </div>
 }

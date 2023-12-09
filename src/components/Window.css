@@ -2,9 +2,9 @@
     border: #c4c4c4 5px ridge;
     background-color: white;
     z-index: 2;
-    position: absolute;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 }
 
 .window-head {
