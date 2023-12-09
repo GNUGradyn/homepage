@@ -105,7 +105,7 @@ const OS = () => {
                                 <ContactMeWindow/>
                             </Window>}
                             {windows.indexOf(Windows.VirtualBox) > -1 && <Window minimized={windowsVisible.indexOf(Windows.VirtualBox) === -1} minWidth={"260px"} minHeight={"260px"} icon={require("../assets/Virtualbox_logo.png")} title={"Virtual Box [Running GradynOS]"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.VirtualBox)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.VirtualBox))}}>
-                                <iframe src={window.location.href + "?" + (Math.random() + 1).toString(36).substring(7)} width={"100%"} height={"100%"}/>
+                                <iframe src={"https://gradyn.com/?" + (Math.random() + 1).toString(36).substring(7)} width={"100%"} height={"100%"}/>
                             </Window>}
                             {windows.indexOf(Windows.DOOM) > -1 && <Window minimized={windowsVisible.indexOf(Windows.DOOM) === -1} minWidth={"640px"} minHeight={"400px"} icon={require("../assets/Doom.png")} title={"DOOM by ID Software"} width={"640px"} height={"400px"} requestClose={() => {closeWindow(Windows.DOOM)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.DOOM))}}>
                                 <DosPlayer bundleUrl="DOOM.jsdos" />
