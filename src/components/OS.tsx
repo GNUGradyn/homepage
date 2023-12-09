@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useRef, useState} from "react"
+import React, {ReactNode, useEffect, useMemo, useRef, useState} from "react"
 import './OS.css'
 import Window from './Window'
 import StartMenu from "./StartMenu";
@@ -10,6 +10,7 @@ import {Windows} from "../models";
 import TaskbarIcon from "./TaskbarIcon";
 import ContactMeWindow from "./ContactMeWindow";
 import DosPlayer from "./DOOM";
+import RenderWindow from "./RenderWindow";
 
 const OS = () => {
     const [loaded, setLoaded] = useState(false);
@@ -18,28 +19,6 @@ const OS = () => {
     const [startMenuVisible, setStartMenuVisible] = useState(false);
     const [windows, setWindows] = useState<Windows[]>([]);
     const [windowsVisible, setWindowsVisible] = useState<Windows[]>([]);
-
-    const openWindow = (window: Windows) => {
-        setWindows(oldValue => [...oldValue, window]);
-        setWindowsVisible(oldValue => [...oldValue, window]);
-    }
-
-    const closeWindow = (window: Windows) => {
-        setWindows(oldValue => oldValue.filter(x => x != window));
-        setWindowsVisible(oldValue => oldValue.filter(x => x != window));
-    }
-
-    const isWindowVisible = (window: Windows) => {
-        return windows.indexOf(window) > -1 && windowsVisible.indexOf(window) > -1;
-    }
-
-    const toggleWindowVisible = (window: Windows) => {
-        if (isWindowVisible(window)) {
-            setWindowsVisible(oldValue => oldValue.filter(x => x != window));
-        } else {
-            setWindowsVisible(oldValue => [...oldValue, window])
-        }
-    }
 
     const [draggablePositions, setDraggablePositions] = useState<{ [key: string]: ClientRect }>({});
 
@@ -81,53 +60,6 @@ const OS = () => {
 
     const mouseSensor = useSensor(MouseSensor, {activationConstraint: {distance: 15}})
     const sensors = useSensors(mouseSensor);
-
-    interface RenderWindowProps {
-        windowType: Windows
-        minWidth: string
-        minHeight: string
-        icon: string
-        title: string
-        width: string
-        height: string
-        content: ReactNode
-    }
-
-    const RenderWindow: React.FC<RenderWindowProps> = ({
-                                                           windowType,
-                                                           minWidth,
-                                                           minHeight,
-                                                           icon,
-                                                           title,
-                                                           width,
-                                                           height,
-                                                           content
-                                                       }) => {
-        if (windows.indexOf(windowType) === -1) {
-            return null;
-        }
-
-        const isMinimized = windowsVisible.indexOf(windowType) === -1;
-
-        const handleClose = () => closeWindow(windowType);
-        const handleMinimize = () => setWindowsVisible(oldValue => oldValue.filter(x => x !== windowType));
-
-        return (
-            <Window
-                minimized={isMinimized}
-                minWidth={minWidth}
-                minHeight={minHeight}
-                icon={icon}
-                title={title}
-                width={width}
-                height={height}
-                requestClose={handleClose}
-                requestMinimize={handleMinimize}
-            >
-                {content}
-            </Window>
-        );
-    };
 
     return (
         loaded ?
