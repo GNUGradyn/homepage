@@ -98,16 +98,16 @@ const OS = () => {
                             <DesktopIcon name={"Virtual Box"} icon={require("../assets/Virtualbox_logo.png")} onClick={()=>{openWindow(Windows.VirtualBox)}}/>
                             <DesktopIcon name={"DOOM"} icon={require("../assets/Doom.png")} onClick={()=>{openWindow(Windows.DOOM)}}/>
 
-                            {isWindowVisible(Windows.Resume) && <Window minWidth={"260px"} minHeight={"260px"} icon={require("../assets/document_icon.png")} title={"Resume"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Resume)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Resume))}}>
+                            {windows.indexOf(Windows.Resume) > -1 && <Window minimized={windowsVisible.indexOf(Windows.Resume) === -1} minWidth={"260px"} minHeight={"260px"} icon={require("../assets/document_icon.png")} title={"Resume"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Resume)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Resume))}}>
                                 <object type="application/pdf" data={require("../assets/resume.pdf")} width={"100%"} height={"100%"}/>
                             </Window>}
-                            {isWindowVisible(Windows.Contact) && <Window minWidth={"260px"} minHeight={"260px"} icon={require("../assets/message_envelope_open-0.png")} title={"Contact Me"} width={"15vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Contact)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Contact))}}>
+                            {windows.indexOf(Windows.Contact) > -1 && <Window minimized={windowsVisible.indexOf(Windows.Contact) === -1} minWidth={"260px"} minHeight={"260px"} icon={require("../assets/message_envelope_open-0.png")} title={"Contact Me"} width={"15vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.Contact)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.Contact))}}>
                                 <ContactMeWindow/>
                             </Window>}
-                            {isWindowVisible(Windows.VirtualBox) && <Window minWidth={"260px"} minHeight={"260px"} icon={require("../assets/Virtualbox_logo.png")} title={"Virtual Box [Running GradynOS]"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.VirtualBox)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.VirtualBox))}}>
+                            {windows.indexOf(Windows.VirtualBox) > -1 && <Window minimized={windowsVisible.indexOf(Windows.VirtualBox) === -1} minWidth={"260px"} minHeight={"260px"} icon={require("../assets/Virtualbox_logo.png")} title={"Virtual Box [Running GradynOS]"} width={"40vw"} height={"60vh"} requestClose={() => {closeWindow(Windows.VirtualBox)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.VirtualBox))}}>
                                 <iframe src={"https://gradyn.com/"} width={"100%"} height={"100%"}/>
                             </Window>}
-                            {isWindowVisible(Windows.DOOM) && <Window minWidth={"640px"} minHeight={"400px"} icon={require("../assets/Doom.png")} title={"DOOM by ID Software"} width={"640px"} height={"400px"} requestClose={() => {closeWindow(Windows.DOOM)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.DOOM))}}>
+                            {windows.indexOf(Windows.DOOM) > -1 && <Window minimized={windowsVisible.indexOf(Windows.DOOM) === -1} minWidth={"640px"} minHeight={"400px"} icon={require("../assets/Doom.png")} title={"DOOM by ID Software"} width={"640px"} height={"400px"} requestClose={() => {closeWindow(Windows.DOOM)}} requestMinimize={() => {setWindowsVisible(oldValue => oldValue.filter(x => x != Windows.DOOM))}}>
                                 <DosPlayer bundleUrl="DOOM.jsdos" />
                             </Window>}
                         </div>
@@ -133,7 +133,7 @@ const OS = () => {
             }}>
                 {startupWindowVisible && <div>
                     <DndContext>
-                        <Window isRelative minHeight={"0px"}  minWidth={"0px"} requestMinimize={()=>{}} title="Starting Up" height={"50vh"} width={"20vw"} style={{position: "relative", height: "50vh", width: "20vw"}} requestClose={() => {}}>
+                        <Window minimized={false} isRelative minHeight={"0px"}  minWidth={"0px"} requestMinimize={()=>{}} title="Starting Up" height={"50vh"} width={"20vw"} style={{position: "relative", height: "50vh", width: "20vw"}} requestClose={() => {}}>
                             <div id="startup-window-content">
                                 <h1>Starting Gradyn OS</h1>
                                 <img id="startup-img" src={require("../assets/gradyn.png")}/>
