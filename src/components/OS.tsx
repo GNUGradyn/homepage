@@ -187,7 +187,7 @@ const OS = () => {
                                     width={"100%"} height={"100%"}/>}
                             />
                             <RenderWindow
-                                windowType={Windows.VirtualBox}
+                                windowType={Windows.DOOM}
                                 minWidth="640px"
                                 minHeight="400px"
                                 icon={require("../assets/Doom.png")}
